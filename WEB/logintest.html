@@ -9,6 +9,7 @@
 				if(data.success == "true"){
 					$('#message').html("Login Successful");
 					window.location.href = "dashboard.html";
+					document.cookie = "userid="+$('#idInput').val();
 				} else {
 					$('#message').html("Login Unsuccessful");
 				}
