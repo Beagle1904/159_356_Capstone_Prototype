@@ -1,8 +1,18 @@
 <HTML>
 <HEAD>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+	    <script>
+		$(document).ready(function () {
+			let input = JSON.stringify({"userid":Cookies.get("userid")});
+			$.post('https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/UserInfo',input,function(data){
+				$("#welcome").html("Welcome "+data.name);
+			})
+		});
+    </script>
 </HEAD>
 <BODY>
 	<h1>Dashboard</h1>
-	<h2>Welcome [name]</h2>
+	<h2 id="welcome">Welcome [name]</h2>
 </BODY>
 </HTML>
