@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+/target/
 
 # Log file
 *.log
@@ -24,3 +25,6 @@ hs_err_pid*
 
 # IDE dependent files
 /.idea/
+/.settings/
+.project
+.classpath
