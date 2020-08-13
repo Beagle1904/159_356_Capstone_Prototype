@@ -1,6 +1,7 @@
 package secapstone.exam;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -14,8 +15,6 @@ import com.amazonaws.services.lambda.runtime.Context;
  */
 public class LoginTest {
 
-	private static Map<String, String> input;
-
 	@BeforeClass
 	public static void createInput() throws IOException {
 
@@ -26,7 +25,11 @@ public class LoginTest {
 		Login handler = new Login();
 		Context ctx = createContext();
 
-		Map<String, String> output = handler.handleRequest(Map.of("id", "100", "password", "password"), ctx);
+		Map<String, String> input = new HashMap<String, String>();
+		input.put("id", "100");
+		input.put("password", "password");
+
+		Map<String, String> output = handler.handleRequest(input, ctx);
 
 		Assert.assertEquals("true", output.get("success"));
 	}
