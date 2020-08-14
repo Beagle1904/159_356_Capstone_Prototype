@@ -27,7 +27,7 @@ public class UserInfoTest {
 
 		Map<String, String> output = handler.handleRequest(Collections.singletonMap("userid", "100"), ctx);
 
-		Assert.assertEquals("Bob", output.get("name"));
+		Assert.assertEquals("Alice", output.get("name"));
 	}
 
 	private Context createContext() {

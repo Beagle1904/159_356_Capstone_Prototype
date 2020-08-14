@@ -27,7 +27,7 @@ public class LoginTest {
 
 		Map<String, String> input = new HashMap<String, String>();
 		input.put("id", "100");
-		input.put("password", "password");
+		input.put("password", "alicepass");
 
 		Map<String, String> output = handler.handleRequest(input, ctx);
 
