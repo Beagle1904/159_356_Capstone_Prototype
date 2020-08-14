@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightblue;
+}
+
+form {border: 3px solid #f1f1f1;}
+
+div {
+  color: black;
+  background: white;
+  padding: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}   
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+#errorMessage {
+    color: red;
+}
+
+</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+		$(document).ready(function () {
+
+		//Hide error message.
+		$('#errorMessage').hide();
+
+		//Enter key causes login request.
+        $('#idInput, #passwordInput').keyup(function(event){
+            if(event.which === 13){
+                $('#loginButton').click();
+            };
+        });
+
+        //Login request handling.
+		$('#loginButton').click(function() {
+		    let userID = $('#idInput').val();
+		    let input = JSON.stringify({"id":userID,"password":$('#passwordInput').val()});
+			$.post('https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/Login',input,function(data){
+				if(data.success == "true"){
+					$('#message').html("Login Successful");
+					window.location.href = "dashboard.html";
+					document.cookie = "userid="+userID;
+				} else {
+					$('#errorMessage').show();
+				}
+			})
+		})
+		});
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <h2 style="text-align:center">Online Exam Platform - Login</h2>
+    <label for="idInput"><b>UserID</b></label>
+    <input type="text" id="idInput" placeholder="Enter UserID">
+
+    <label for="passwordInput"><b>Password</b></label>
+    <input type="password" id="passwordInput" placeholder="Enter Password">
+
+    <p id="errorMessage">Invalid userID or password.</p>
+
+    <button type="button" id="loginButton">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+
+  </div>
+
+</body>
+</html>
