@@ -4,21 +4,15 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.amazonaws.services.lambda.runtime.Context;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
 public class UserInfoTest {
-
-	static Map<String, String> input;
-
-	@BeforeClass
-	public static void createInput() throws IOException {}
 
 	@Test
 	public void testUserInfo() {
@@ -27,7 +21,7 @@ public class UserInfoTest {
 
 		Map<String, String> output = handler.handleRequest(Collections.singletonMap("userid", "100"), ctx);
 
-		Assert.assertEquals("Alice", output.get("name"));
+		assertEquals("Alice", output.get("name"));
 	}
 
 	private Context createContext() {
