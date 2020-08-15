@@ -1,31 +1,27 @@
 package secapstone.exam;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.GetItemResult;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.ParseException;
 import java.util.*;
 
-public class AddQuestion implements RequestHandler<Map<String, String>, Map<String, String>> {
+public class AddQuestion implements RequestHandler<Map<String, Object>, Map<String, String>> {
 	@Override
-	public Map<String, String> handleRequest(Map<String, String> request, Context context) {
+	public Map<String, String> handleRequest(Map<String, Object> request, Context context) {
 		Map<String, Object> questionItem;
 		ArrayList<String> answerItems;
 		ArrayList<String> tagItems;
 		try {
 			questionItem = genQuestionMap(request);
-			answerItems = getArrayItems(request, "answers");
+			answerItems = getArrayItems(request, "choices");
 			tagItems = getArrayItems(request, "tags");
 		} catch (Exception e) {
 			Map<String, String> errorResponse = new HashMap<>();
@@ -66,45 +62,29 @@ public class AddQuestion implements RequestHandler<Map<String, String>, Map<Stri
 
 	private Map<String, Object> genTagMap(String tag, String questionID) {
 		Map<String, Object> tagMap = new HashMap<>();
-		tagMap.put("ID", UUID.randomUUID());
+		tagMap.put("ID", UUID.randomUUID().toString());
 		tagMap.put("questionID", questionID);
-		tagMap.put("answerText", tag.toLowerCase());
+		tagMap.put("tag", tag.toLowerCase());
 
 		return tagMap;
 	}
 
 	private Map<String, Object> genAnswerMap(String answer, String questionID) {
 		Map<String, Object> answerMap = new HashMap<>();
-		answerMap.put("ID", UUID.randomUUID());
+		answerMap.put("ID", UUID.randomUUID().toString());
 		answerMap.put("questionID", questionID);
 		answerMap.put("answerText", answer);
 
 		return answerMap;
 	}
 
-	private ArrayList<String> getArrayItems(Map<String, String> request, String param) throws Exception {
+	private ArrayList<String> getArrayItems(Map<String, Object> request, String param) throws Exception {
 		if (!request.containsKey(param)) throw new Exception("MALFORMED REQUEST\n\tMissing param: "+param);
-		JSONArray answersArray;
-		try {
-			answersArray = new JSONArray(request.get(param));
-		} catch (JSONException e) {  // Parameter is not a JSON array
-			throw new Exception("MALFORMED REQUEST\n\tMalformed param: "+param);
-		}
 
-		ArrayList<String> answerItems = new ArrayList<>();  // Output
-		for (Object answer: answersArray) {
-			// Attempt to cast to a String and add to output array
-			try {
-				answerItems.add((String) answer);
-			} catch (ClassCastException e) {
-				throw new Exception("MALFORMED REQUEST\n\tMalformed param: "+param);
-			}
-		}
-
-		return answerItems;
+		return (ArrayList<String>) request.get(param);
 	}
 
-	private Map<String, Object> genQuestionMap(Map<String, String> request) throws Exception {
+	private Map<String, Object> genQuestionMap(Map<String, Object> request) throws Exception {
 		Map<String, Object> questionMap = new HashMap<>();
 		final String[] params = new String[] {"context", "details", "answer", "reason", "type"};
 		questionMap.put("ID", UUID.randomUUID().toString());
