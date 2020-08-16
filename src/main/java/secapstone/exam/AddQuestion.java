@@ -13,18 +13,15 @@ import org.json.JSONException;
 
 import java.util.*;
 
-public class AddQuestion implements RequestHandler<Map<String, Object>, Map<String, String>> {
+public class AddQuestion implements RequestHandler<Map<String, Object>, Map<String, Object>> {
 	@Override
-	public Map<String, String> handleRequest(Map<String, Object> request, Context context) {
+	public Map<String, Object> handleRequest(Map<String, Object> request, Context context) {
 		Map<String, Object> questionItem;
-		ArrayList<String> answerItems;
-		ArrayList<String> tagItems;
 		try {
 			questionItem = genQuestionMap(request);
-			answerItems = getArrayItems(request, "choices");
-			tagItems = getArrayItems(request, "tags");
 		} catch (Exception e) {
-			Map<String, String> errorResponse = new HashMap<>();
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("statusCode", 400);
 			errorResponse.put("status", "Failed");
 			errorResponse.put("message", e.getLocalizedMessage());
 			return errorResponse;
@@ -40,59 +37,25 @@ public class AddQuestion implements RequestHandler<Map<String, Object>, Map<Stri
 		Table questionTable = dynamoDB.getTable("Questions");
 		questionTable.putItem(Item.fromMap(questionItem));
 
-		// Put answers to answers table
-		Table answersTable = dynamoDB.getTable("Answers");
-		for (String answer: answerItems) {
-			answersTable.putItem(Item.fromMap(genAnswerMap(answer, (String) questionItem.get("ID"))));
-		}
-
-		// Put tags to tag table
-		Table tagsTable = dynamoDB.getTable("Tags");
-		for (String tag: tagItems) {
-			tagsTable.putItem(Item.fromMap(genTagMap(tag, (String) questionItem.get("ID"))));
-		}
-
 		// Response message
-		Map<String, String> response = new HashMap<String, String>();
+		Map<String, Object> response = new HashMap<>();
+		response.put("statusCode", 200);
 		response.put("status", "Success");
 		response.put("message", "Question added successfully");
+		response.put("newQuestionID", questionItem.get("ID"));
 
 		return response;
 	}
 
-	private Map<String, Object> genTagMap(String tag, String questionID) {
-		Map<String, Object> tagMap = new HashMap<>();
-		tagMap.put("ID", UUID.randomUUID().toString());
-		tagMap.put("questionID", questionID);
-		tagMap.put("tag", tag.toLowerCase());
-
-		return tagMap;
-	}
-
-	private Map<String, Object> genAnswerMap(String answer, String questionID) {
-		Map<String, Object> answerMap = new HashMap<>();
-		answerMap.put("ID", UUID.randomUUID().toString());
-		answerMap.put("questionID", questionID);
-		answerMap.put("answerText", answer);
-
-		return answerMap;
-	}
-
-	private ArrayList<String> getArrayItems(Map<String, Object> request, String param) throws Exception {
-		if (!request.containsKey(param)) throw new Exception("MALFORMED REQUEST\n\tMissing param: "+param);
-
-		return (ArrayList<String>) request.get(param);
-	}
-
 	private Map<String, Object> genQuestionMap(Map<String, Object> request) throws Exception {
 		Map<String, Object> questionMap = new HashMap<>();
-		final String[] params = new String[] {"context", "details", "answer", "reason", "type"};
+		final String[] params = new String[] {"context", "details", "answer", "reason", "type", "choices", "tags"};
 		questionMap.put("ID", UUID.randomUUID().toString());
 
 		for (String param: params) {
 			if (!request.containsKey(param)) throw new Exception("MALFORMED REQUEST\n\tMissing param: "+param);
 
-			questionMap.put(param, (String) request.get(param));
+			questionMap.put(param, request.get(param));
 		}
 
 		// Add image link if provided
