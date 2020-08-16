@@ -24,8 +24,8 @@
 hs_err_pid*
 
 # IDE dependent files
-/.idea/
 /.settings/
 .project
 .classpath
 /bin/
+.idea/*
