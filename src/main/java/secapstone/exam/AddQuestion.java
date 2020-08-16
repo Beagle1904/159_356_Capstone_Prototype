@@ -49,7 +49,7 @@ public class AddQuestion implements RequestHandler<Map<String, Object>, Map<Stri
 
 	private Map<String, Object> genQuestionMap(Map<String, Object> request) throws Exception {
 		Map<String, Object> questionMap = new HashMap<>();
-		final String[] params = new String[] {"context", "details", "answer", "reason", "type", "choices", "tags"};
+		final String[] params = new String[] {"context", "details", "answer", "reason", "questionType", "choices", "tags"};
 		questionMap.put("ID", UUID.randomUUID().toString());
 
 		for (String param: params) {
