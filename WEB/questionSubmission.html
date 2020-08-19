@@ -93,6 +93,24 @@ input[type=submit]:hover {
   .sidenav a {font-size: 18px;}
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+var correctAnswer;
+
+$(document).ready(function () {
+
+	//When the submit button is clicked.
+	$("#submit").click(function (){
+		let input = { context:$("#context").val(), choices:[], reason:$("#justification").val(), details:"" , questionType:"MCQ", tags:[]}
+		input.choices.push($("#answer1").val());
+		input.choices.push($("#answer2").val());
+		input.choices.push($("#answer3").val());
+		input.choices.push($("#answer4").val());
+		input.answer = $("#correct").val();
+		$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/add",JSON.stringify(input), function (data){})
+	});
+});
+</script>
 </head>
 <body>
 
@@ -107,31 +125,27 @@ input[type=submit]:hover {
 <span style="font-size:30px;cursor:pointer" onclick="openSidebar()">&#9776; Menu</span>
 
 <div style="text-align:center" id="main" class="questionbox">
-  	<form>
-     	<label for="context">Question Context:</label><br>
-  		<textarea id="context" name="qContext" rows="4" cols="50"required></textarea><br><br>
-  		<label for="question">Question to be Answered:</label><br>
-  		<textarea id="question" name="questionActual" rows="4" cols="50"required></textarea><br><br>
-        <label for="answer1">Possible Answer 1:</label><br>
-        <textarea id="answer1" name="answer1" rows="1" cols="40"required></textarea><br><br>
-        <label for="answer2">Possible Answer 2:</label><br>
-        <textarea id="answer2" name="answer2" rows="1" cols="40"required></textarea><br><br>
-        <label for="answer3">Possible Answer 3:</label><br>
-        <textarea id="answer3" name="answer3" rows="1" cols="40"required></textarea><br><br>
-        <label for="answer4">Possible Answer 4:</label><br>
-        <textarea id="answer4" name="answer4" rows="1" cols="40"required></textarea><br><br>
-        <label for="correct">Correct Answer:</label><br>
-        <select id="correct" name="correct">
-        	<option value="default">Please choose an answer</option>
-			<option value="answer1">Option 1</option>
-			<option value="answer2">Option 2</option>
-			<option value="answer3">Option 3</option>
-			<option value="answer4">Option 4</option>
-		</select><br><br>
-        <label for="justification">Reasoning for Correct Answer:</label><br>
-        <textarea id="justification" name="answerJustified" rows="4" cols="50"required></textarea><br><br>
-  		<input type="submit" value="Submit">
-    </form>
+	<label for="context">Question Context:</label><br>
+	<textarea id="context" name="qContext" rows="4" cols="50"required></textarea><br><br>
+	<label for="answer1">Possible Answer 1:</label><br>
+	<textarea id="answer1" name="answer1" rows="1" cols="40"required></textarea><br><br>
+	<label for="answer2">Possible Answer 2:</label><br>
+	<textarea id="answer2" name="answer2" rows="1" cols="40"required></textarea><br><br>
+	<label for="answer3">Possible Answer 3:</label><br>
+	<textarea id="answer3" name="answer3" rows="1" cols="40"required></textarea><br><br>
+	<label for="answer4">Possible Answer 4:</label><br>
+	<textarea id="answer4" name="answer4" rows="1" cols="40"required></textarea><br><br>
+	<label for="correct">Correct Answer:</label><br>
+	<select id="correct" name="correct">
+		<option value="default">Please choose an answer</option>
+		<option value="0">Option 1</option>
+		<option value="1">Option 2</option>
+		<option value="2">Option 3</option>
+		<option value="3">Option 4</option>
+	</select><br><br>
+	<label for="justification">Reasoning for Correct Answer:</label><br>
+	<textarea id="justification" name="answerJustified" rows="4" cols="50"required></textarea><br><br>
+	<input id="submit" type="button" value="Submit">
 </div>
 
 <script>
