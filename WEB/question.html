@@ -79,27 +79,14 @@ button:hover {
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+var correctAnswer;
+
 $(document).ready(function () {
 	
-	//Hide Result & Reasoning
-	$("#result").hide();
-	$("#reasoning").hide();
-	
-	//Select Question
-	let input = JSON.stringify({"ID":"17d83afc-5446-4079-9b75-1ed6f27682ef"});
-	
 	//Populate page with question.
-	let correctAnswer;
-	$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/get",input,function(data){
-		$("#context").html(data.question.context);
-		$("#answer1").html(data.question.choices[0]);
-		$("#answer2").html(data.question.choices[1]);
-		console.log(data.question.reasoning);
-		$("#reasoning").html(data.question.reason);
-		console.log($("#reasoning").html())
-		correctAnswer = data.question.answer;
-	})
+	loadRandomQuestion();
 	
+	//When the submit button is clicked.
 	$("#submit").click(function (){
 		if($("input[name=answer]:checked").length > 0){
 		let givenAnswer = $("input[name=answer]:checked").attr("index")
@@ -115,7 +102,39 @@ $(document).ready(function () {
 		$("#reasoning").show();
 		};
 	});
+	
+	//When the continue button is clicked.
+	$("#continue").click(function (){
+		loadRandomQuestion();
+	});
 });
+
+function loadRandomQuestion(){
+	$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/get",function(data){
+		loadQuestion(data.questions[Math.floor(Math.random() * data.questions.length)]);
+	})
+}
+
+function loadQuestion(question){
+	//Reset page.
+	$("#result").hide();
+	$("#reasoning").hide();
+	$(".questionbox").css("background-color","white");
+	$("#choices").html("");
+	
+	//Populate page with question.
+	$("#context").html(question.context);
+	$("#reasoning").html(question.reason);
+	correctAnswer = question.answer;
+	question.choices.forEach(function(item,index){
+		$("#choices").append(`
+		<label id="label${index}" for="radio${index}">${item}</label>
+		<input id="radio${index}" type="radio" name="answer" index=${index}><br>
+		`);
+	})
+	
+	
+}
 </script>
 </head>
 <body>
@@ -132,10 +151,7 @@ $(document).ready(function () {
 
 <div style="text-align:center" id="main" class="questionbox">
   	<p id="context">[Question Context]</p>
-	<label id="answer1" for="radio1">[First Answer]</label>
-	<input id="radio1" type="radio" name="answer" index=0><br>
-	<label id="answer2" for="radio2">[Second Answer]</label>
-	<input id="radio2" type="radio" name="answer" index=1><br>
+  	<div id="choices"></div>
 	<button id="submit" type="button" value="Submit">Submit</button><br>
 	<p id="result">[Result]</p>
 	<p id="reasoning">[Reasoning]</p>
