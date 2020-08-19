@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightblue;
+}
+
+button {
+  background-color: skyblue;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 300px;
+}
+
+button:hover {
+	color: white;
+}
+
+.questionbox {
+  color: black;
+  background: white;
+  padding: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+} 
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: skyblue;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: white;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  opacity: 0.8;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<div id="SideBar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+  <a href="#">Menu Option 1</a>
+  <a href="#">Menu Option 2</a>
+  <a href="#">Menu Option 3</a>
+  <a href="#">Menu Option 4</a>
+</div>
+
+<span style="font-size:30px;cursor:pointer" onclick="openSidebar()">&#9776; Menu</span>
+
+<div style="text-align:center" id="main" class="questionbox">
+  	<form>
+     	<label for="context">Question Context:</label><br>
+  		<textarea id="context" name="qContext" rows="4" cols="50"required></textarea><br><br>
+  		<label for="question">Question to be Answered:</label><br>
+  		<textarea id="question" name="questionActual" rows="4" cols="50"required></textarea><br><br>
+        <label for="answer1">Possible Answer 1:</label><br>
+        <textarea id="answer1" name="answer1" rows="1" cols="40"required></textarea><br><br>
+        <label for="answer2">Possible Answer 2:</label><br>
+        <textarea id="answer2" name="answer2" rows="1" cols="40"required></textarea><br><br>
+        <label for="answer3">Possible Answer 3:</label><br>
+        <textarea id="answer3" name="answer3" rows="1" cols="40"required></textarea><br><br>
+        <label for="answer4">Possible Answer 4:</label><br>
+        <textarea id="answer4" name="answer4" rows="1" cols="40"required></textarea><br><br>
+        <label for="correct">Correct Answer:</label><br>
+        <select id="correct" name="correct">
+        	<option value="default">Please choose an answer</option>
+			<option value="answer1">Option 1</option>
+			<option value="answer2">Option 2</option>
+			<option value="answer3">Option 3</option>
+			<option value="answer4">Option 4</option>
+		</select><br><br>
+        <label for="justification">Reasoning for Correct Answer:</label><br>
+        <textarea id="justification" name="answerJustified" rows="4" cols="50"required></textarea><br><br>
+  		<input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+function openSidebar() {
+  document.getElementById("SideBar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeSidebar() {
+  document.getElementById("SideBar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+   
+</body>
+</html> 
