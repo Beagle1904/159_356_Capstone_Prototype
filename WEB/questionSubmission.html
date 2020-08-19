@@ -96,6 +96,7 @@ input[type=submit]:hover {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 var correctAnswer;
+var answerCount = 0;
 
 $(document).ready(function () {
 	//Hide error text.
@@ -104,50 +105,61 @@ $(document).ready(function () {
 	//When the submit button is clicked.
 	$("#submit").click(function (){
 		let question = {choices:[], details:"", questionType:"MCQ", tags:[]};
+		
+		//Validate context input.
 		if(!!$("#context").val()){
 			question.context = $("#context").val();
 		} else {
 			showError("No question context.");
 			return;
 		}
-		if(!!$("#reason").val()){
-			question.reason = $("#reason").val();
-		} else {
-			showError("No question reasoning.")
-			return;
+		
+		//Validate answers.
+		let error = false;
+		$("#answers > textarea").each(function(index,element){
+			if(!!$(element).val()){
+				question.choices.push($(element).val())
+			} else {
+				showError(`Answer ${$(element).attr("index")} missing.`)
+				error = true;
+				return false;
+			}
+		})
+		if(error){
+			return
 		}
+		
+		//Validate correct answer input.
 		if($("#correct").val() != "default"){
 			question.answer = $("#correct").val();
 		} else {
 			showError("No correct answer.")
 			return;
 		}
-		if(!!$("#answer1").val()){
-			question.choices.push($("#answer1").val());
+		
+		//Validate reasoning input.
+		if(!!$("#reason").val()){
+			question.reason = $("#reason").val();
 		} else {
-			showError("Answer 1 missing.")
+			showError("No question reasoning.")
 			return;
 		}
-		if(!!$("#answer2").val()){
-			question.choices.push($("#answer2").val());
-		} else {
-			showError("Answer 2 missing.")
-			return;
-		}
-		if(!!$("#answer3").val()){
-			question.choices.push($("#answer3").val());
-		} else {
-			showError("Answer 3 missing.")
-			return;
-		}
-		if(!!$("#answer4").val()){
-			question.choices.push($("#answer4").val());
-		} else {
-			showError("Answer 4 missing.")
-			return;
-		}
+		
 		$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/add",JSON.stringify(question), function (data){})
 	});
+	
+	//When the add answer button is clicked.
+	$("#addAnswer").click(function(){
+		let index = answerCount;
+		answerCount += 1;
+		$("#answers").append(`
+			<label for="answer${index}">Answer ${index}:</label><br>
+			<textarea id="answer${index}" rows="1" cols="40" index="${index}"></textarea><br><br>
+		`)
+		$("#correct").append(`
+			<option value="${index}">Answer ${index}</option>
+		`)
+	})
 });
 
 function showError(error){
@@ -171,26 +183,17 @@ function showError(error){
 <div style="text-align:center" id="main" class="questionbox">
 	<label for="context">Question Context:</label><br>
 	<textarea id="context" name="qContext" rows="4" cols="50"required></textarea><br><br>
-	<label for="answer1">Possible Answer 1:</label><br>
-	<textarea id="answer1" name="answer1" rows="1" cols="40"required></textarea><br><br>
-	<label for="answer2">Possible Answer 2:</label><br>
-	<textarea id="answer2" name="answer2" rows="1" cols="40"required></textarea><br><br>
-	<label for="answer3">Possible Answer 3:</label><br>
-	<textarea id="answer3" name="answer3" rows="1" cols="40"required></textarea><br><br>
-	<label for="answer4">Possible Answer 4:</label><br>
-	<textarea id="answer4" name="answer4" rows="1" cols="40"required></textarea><br><br>
+	<div id="answers">
+	</div>
+	<button id="addAnswer">Add Answer</button><br>
 	<label for="correct">Correct Answer:</label><br>
 	<select id="correct" name="correct">
-		<option value="default">Please choose an answer</option>
-		<option value="0">Option 1</option>
-		<option value="1">Option 2</option>
-		<option value="2">Option 3</option>
-		<option value="3">Option 4</option>
+		<option value="default">Please select a correct answer.</option>
 	</select><br><br>
 	<label for="reason">Reasoning for Correct Answer:</label><br>
 	<textarea id="reason" name="reason" rows="4" cols="50"required></textarea><br><br>
 	<p id="error" style="color:red;">[Error]</p>
-	<input id="submit" type="button" value="Submit">
+	<button id="submit">Submit</button>
 </div>
 
 <script>
