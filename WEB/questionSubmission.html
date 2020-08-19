@@ -98,18 +98,62 @@ input[type=submit]:hover {
 var correctAnswer;
 
 $(document).ready(function () {
+	//Hide error text.
+	$("#error").hide();
 
 	//When the submit button is clicked.
 	$("#submit").click(function (){
-		let input = { context:$("#context").val(), choices:[], reason:$("#justification").val(), details:"" , questionType:"MCQ", tags:[]}
-		input.choices.push($("#answer1").val());
-		input.choices.push($("#answer2").val());
-		input.choices.push($("#answer3").val());
-		input.choices.push($("#answer4").val());
-		input.answer = $("#correct").val();
-		$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/add",JSON.stringify(input), function (data){})
+		let question = {choices:[], details:"", questionType:"MCQ", tags:[]};
+		if(!!$("#context").val()){
+			question.context = $("#context").val();
+		} else {
+			showError("No question context.");
+			return;
+		}
+		if(!!$("#reason").val()){
+			question.reason = $("#reason").val();
+		} else {
+			showError("No question reasoning.")
+			return;
+		}
+		if($("#correct").val() != "default"){
+			question.answer = $("#correct").val();
+		} else {
+			showError("No correct answer.")
+			return;
+		}
+		if(!!$("#answer1").val()){
+			question.choices.push($("#answer1").val());
+		} else {
+			showError("Answer 1 missing.")
+			return;
+		}
+		if(!!$("#answer2").val()){
+			question.choices.push($("#answer2").val());
+		} else {
+			showError("Answer 2 missing.")
+			return;
+		}
+		if(!!$("#answer3").val()){
+			question.choices.push($("#answer3").val());
+		} else {
+			showError("Answer 3 missing.")
+			return;
+		}
+		if(!!$("#answer4").val()){
+			question.choices.push($("#answer4").val());
+		} else {
+			showError("Answer 4 missing.")
+			return;
+		}
+		$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/add",JSON.stringify(question), function (data){})
 	});
 });
+
+function showError(error){
+	$("#error").html(error);
+	$("#error").show();
+}
 </script>
 </head>
 <body>
@@ -143,8 +187,9 @@ $(document).ready(function () {
 		<option value="2">Option 3</option>
 		<option value="3">Option 4</option>
 	</select><br><br>
-	<label for="justification">Reasoning for Correct Answer:</label><br>
-	<textarea id="justification" name="answerJustified" rows="4" cols="50"required></textarea><br><br>
+	<label for="reason">Reasoning for Correct Answer:</label><br>
+	<textarea id="reason" name="reason" rows="4" cols="50"required></textarea><br><br>
+	<p id="error" style="color:red;">[Error]</p>
 	<input id="submit" type="button" value="Submit">
 </div>
 
