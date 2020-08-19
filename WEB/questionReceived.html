@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightblue;
+}
+
+button {
+  background-color: skyblue;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 300px;
+}
+
+button:hover {
+	color: white;
+}
+
+.questionbox {
+  color: black;
+  background: white;
+  padding: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+} 
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: skyblue;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: white;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<div id="SideBar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+  <a href="#">Menu Option 1</a>
+  <a href="#">Menu Option 2</a>
+  <a href="#">Menu Option 3</a>
+  <a href="#">Menu Option 4</a>
+</div>
+
+<span style="font-size:30px;cursor:pointer" onclick="openSidebar()">&#9776; Menu</span>
+
+<div style="text-align:center" id="main" class="questionbox">
+  	<p id="context">Question Context Goes Here</p>
+    <p id="question">Actual Question Goes Here</p>
+	<label id="answer1" for="radio1">First Answer</label>
+	<input id="radio1" type="radio" name="answer" index=0><br>
+	<label id="answer2" for="radio2">Second Answer</label>
+	<input id="radio2" type="radio" name="answer" index=1><br>
+	<button id="submit" type="button" value="Submit">Submit</button>
+	<p id="reasoning">Reasoning behind answer goes here.</p>
+    <button id="continue" type="button" value="Continue"/>Continue</button>
+</div>
+
+<script>
+function openSidebar() {
+  document.getElementById("SideBar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeSidebar() {
+  document.getElementById("SideBar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+   
+</body>
+</html> 
