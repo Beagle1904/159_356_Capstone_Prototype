@@ -52,6 +52,7 @@ button:hover {
   font-size: 25px;
   color: black;
   display: block;
+  cursor: pointer;
   transition: 0.3s;
 }
 
@@ -67,6 +68,21 @@ button:hover {
   margin-left: 50px;
 }
 
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  opacity: 0.8;
+}
+
 #main {
   transition: margin-left .5s;
   padding: 16px;
@@ -77,46 +93,6 @@ button:hover {
   .sidenav a {font-size: 18px;}
 }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-$(document).ready(function () {
-	
-	//Hide Result & Reasoning
-	$("#result").hide();
-	$("#reasoning").hide();
-	
-	//Select Question
-	let input = JSON.stringify({"ID":"17d83afc-5446-4079-9b75-1ed6f27682ef"});
-	
-	//Populate page with question.
-	let correctAnswer;
-	$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/get",input,function(data){
-		$("#context").html(data.question.context);
-		$("#answer1").html(data.question.choices[0]);
-		$("#answer2").html(data.question.choices[1]);
-		console.log(data.question.reasoning);
-		$("#reasoning").html(data.question.reason);
-		console.log($("#reasoning").html())
-		correctAnswer = data.question.answer;
-	})
-	
-	$("#submit").click(function (){
-		if($("input[name=answer]:checked").length > 0){
-		let givenAnswer = $("input[name=answer]:checked").attr("index")
-		
-		if(correctAnswer == givenAnswer){
-			$("#result").html("Correct").css("color","green");
-			$(".questionbox").css("background-color","palegreen");
-		} else {
-			$("#result").html("Incorrect").css("color","red");
-			$(".questionbox").css("background-color","pink");
-		}
-		$("#result").show();
-		$("#reasoning").show();
-		};
-	});
-});
-</script>
 </head>
 <body>
 
@@ -131,15 +107,31 @@ $(document).ready(function () {
 <span style="font-size:30px;cursor:pointer" onclick="openSidebar()">&#9776; Menu</span>
 
 <div style="text-align:center" id="main" class="questionbox">
-  	<p id="context">[Question Context]</p>
-	<label id="answer1" for="radio1">[First Answer]</label>
-	<input id="radio1" type="radio" name="answer" index=0><br>
-	<label id="answer2" for="radio2">[Second Answer]</label>
-	<input id="radio2" type="radio" name="answer" index=1><br>
-	<button id="submit" type="button" value="Submit">Submit</button><br>
-	<p id="result">[Result]</p>
-	<p id="reasoning">[Reasoning]</p>
-    <button id="continue" type="button" value="Continue">Continue</button>
+  	<form>
+     	<label for="context">Question Context:</label><br>
+  		<textarea id="context" name="qContext" rows="4" cols="50"required></textarea><br><br>
+  		<label for="question">Question to be Answered:</label><br>
+  		<textarea id="question" name="questionActual" rows="4" cols="50"required></textarea><br><br>
+        <label for="answer1">Possible Answer 1:</label><br>
+        <textarea id="answer1" name="answer1" rows="1" cols="40"required></textarea><br><br>
+        <label for="answer2">Possible Answer 2:</label><br>
+        <textarea id="answer2" name="answer2" rows="1" cols="40"required></textarea><br><br>
+        <label for="answer3">Possible Answer 3:</label><br>
+        <textarea id="answer3" name="answer3" rows="1" cols="40"required></textarea><br><br>
+        <label for="answer4">Possible Answer 4:</label><br>
+        <textarea id="answer4" name="answer4" rows="1" cols="40"required></textarea><br><br>
+        <label for="correct">Correct Answer:</label><br>
+        <select id="correct" name="correct">
+        	<option value="default">Please choose an answer</option>
+			<option value="answer1">Option 1</option>
+			<option value="answer2">Option 2</option>
+			<option value="answer3">Option 3</option>
+			<option value="answer4">Option 4</option>
+		</select><br><br>
+        <label for="justification">Reasoning for Correct Answer:</label><br>
+        <textarea id="justification" name="answerJustified" rows="4" cols="50"required></textarea><br><br>
+  		<input type="submit" value="Submit">
+    </form>
 </div>
 
 <script>
