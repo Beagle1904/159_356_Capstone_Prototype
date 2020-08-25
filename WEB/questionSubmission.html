@@ -104,7 +104,7 @@ var answerCount = 0;
 
 $(document).ready(function () {
 	//Hide error text.
-	$("#error").hide();
+	$("#response").hide();
 
 	//When the submit button is clicked.
 	$("#submit").click(function (){
@@ -149,7 +149,14 @@ $(document).ready(function () {
 			return;
 		}
 		
-		$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/add",JSON.stringify(question), function (data){})
+		$.post("https://jrqdllo7s0.execute-api.ap-southeast-2.amazonaws.com/dev/add",JSON.stringify(question), function (data){
+			if(data.statusCode === 200){
+				showSuccess("Question added.");
+			} else {
+				showError(data.message);
+			}
+		})
+		
 	});
 	
 	//When the add answer button is clicked.
@@ -167,8 +174,11 @@ $(document).ready(function () {
 });
 
 function showError(error){
-	$("#error").html(error);
-	$("#error").show();
+	$("#response").html(error).css("color","red").show();
+}
+
+function showSuccess(message){
+	$("#response").html(message).css("color","limegreen").show();
 }
 </script>
 </head>
@@ -196,7 +206,7 @@ function showError(error){
 	</select><br><br>
 	<label for="reason">Reasoning for Correct Answer:</label><br>
 	<textarea id="reason" name="reason" rows="4" cols="50"required></textarea><br><br>
-	<p id="error" style="color:red;">[Error]</p>
+	<p id="response">[Response]</p>
 	<button id="submit">Submit</button>
 </div>
 
