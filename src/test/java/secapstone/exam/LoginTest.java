@@ -1,13 +1,13 @@
 package secapstone.exam;
 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.amazonaws.services.lambda.runtime.Context;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
@@ -20,7 +20,7 @@ public class LoginTest {
 		Context ctx = createContext();
 
 		Map<String, String> input = new HashMap<>();
-		input.put("id", "100");
+		input.put("username", "alice");
 		input.put("password", "alicepass");
 
 		Map<String, String> output = handler.handleRequest(input, ctx);
