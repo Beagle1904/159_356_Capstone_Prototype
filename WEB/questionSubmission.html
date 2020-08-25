@@ -92,6 +92,10 @@ input[type=submit]:hover {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+textarea, select {
+	border: 1px solid black;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -153,11 +157,11 @@ $(document).ready(function () {
 		let index = answerCount;
 		answerCount += 1;
 		$("#answers").append(`
-			<label for="answer${index}">Answer ${index}:</label><br>
-			<textarea id="answer${index}" rows="1" cols="40" index="${index}"></textarea><br><br>
+			<label for="answer${index}">Answer ${String.fromCharCode(65+index)}:</label><br>
+			<textarea id="answer${index}" rows="1" cols="40" index="${index}"></textarea><br>
 		`)
 		$("#correct").append(`
-			<option value="${index}">Answer ${index}</option>
+			<option value="${index}">Answer ${String.fromCharCode(65+index)}</option>
 		`)
 	})
 });

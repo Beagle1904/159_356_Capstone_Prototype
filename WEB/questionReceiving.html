@@ -129,7 +129,7 @@ function loadQuestion(question){
 	correctAnswer = question.answer;
 	question.choices.forEach(function(item,index){
 		$("#choices").append(`
-		<label id="label${index}" for="radio${index}">${item}</label>
+		<label id="label${index}" for="radio${index}">${String.fromCharCode(65+index)+". "+item}</label>
 		<input id="radio${index}" type="radio" name="answer" index=${index}><br>
 		`);
 	})
