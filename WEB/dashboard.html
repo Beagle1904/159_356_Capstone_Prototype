@@ -4,7 +4,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 	    <script>
 		$(document).ready(function () {
-			let input = JSON.stringify({"userid":Cookies.get("userid")});
+			let input = JSON.stringify({"username":Cookies.get("username")});
 			$.post('https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/UserInfo',input,function(data){
 				$("#welcome").html("Welcome "+data.name);
 			})

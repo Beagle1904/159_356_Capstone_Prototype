@@ -18,16 +18,14 @@ public class UserInfo implements RequestHandler<Map<String, String>, Map<String,
 	public Map<String, String> handleRequest(Map<String, String> input, Context context) {
 		Map<String, String> response = new HashMap<String, String>();
 
-		context.getLogger().log("userid: " + input.get("userid"));
-
 		AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClient.builder();
 		builder.setRegion("ap-southeast-2");
 		AmazonDynamoDB dynamoDB = builder.build();
-		GetItemResult dbResult = dynamoDB.getItem("AccountTest",
-				Collections.singletonMap("UserID", new AttributeValue(input.get("userid"))));
+		GetItemResult dbResult = dynamoDB.getItem("users",
+				Collections.singletonMap("username", new AttributeValue(input.get("username"))));
 
 		if (dbResult.getItem() != null) {
-			response.put("name", dbResult.getItem().get("Name").getS());
+			response.put("name", dbResult.getItem().get("name").getS());
 		}
 
 		return response;

@@ -21,10 +21,10 @@ public class Login implements RequestHandler<Map<String, String>, Map<String, St
 		AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClient.builder();
 		builder.setRegion("ap-southeast-2");
 		AmazonDynamoDB dynamoDB = builder.build();
-		GetItemResult dbResult = dynamoDB.getItem("AccountTest",
-				Collections.singletonMap("UserID", new AttributeValue(input.get("id"))));
+		GetItemResult dbResult = dynamoDB.getItem("users",
+				Collections.singletonMap("username", new AttributeValue(input.get("username"))));
 
-		if (dbResult.getItem() != null && dbResult.getItem().get("Password").getS().equals(input.get("password"))) {
+		if (dbResult.getItem() != null && dbResult.getItem().get("password").getS().equals(input.get("password"))) {
 			response.put("success", "true");
 		} else {
 			response.put("success", "false");
