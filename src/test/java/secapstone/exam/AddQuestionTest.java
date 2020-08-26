@@ -45,7 +45,7 @@ class AddQuestionTest {
 	void testCreateQuestion() {
 		AddQuestion handler = new AddQuestion();
 
-		Map<String, Object> input = new JSONObject("{\"context\": \"Question Context\",\"details\": \"Question Details\",\"answer\": \"Correct Answer\",\"reason\": \"Dummy Reason\",\"type\": \"MCQ\",\"choices\": [\"Answer 1\", \"Answer 2\"],\"tags\": [\"tag1\", \"tag2\"]}").toMap();
+		Map<String, Object> input = new JSONObject("{\"context\": \"Question Context\",\"details\": \"Question Details\",\"answer\": \"Correct Answer\",\"reason\": \"Dummy Reason\",\"type\": \"MCQ\",\"choices\": [\"Answer 1\", \"Answer 2\"],\"tags\": [\"test\"]}").toMap();
 
 		Map<String, Object> output = handler.handleRequest(input, context);
 		questionIDs.add((String) output.get("newQuestionID"));
