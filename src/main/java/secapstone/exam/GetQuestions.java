@@ -1,31 +1,37 @@
 package secapstone.exam;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
-import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
-import com.amazonaws.services.dynamodbv2.xspec.*;
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
+import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.L;
+import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.S;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.*;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
+import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.xspec.Condition;
+import com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder;
+import com.amazonaws.services.dynamodbv2.xspec.ScanExpressionSpec;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 public class GetQuestions implements RequestHandler<Map<String, Object>, Map<String, Object>> {
+
+	private DynamoDB dynamoDB;
+
+	public GetQuestions() {
+		dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion("ap-southeast-2").build());
+	}
+
 	@Override
 	public Map<String, Object> handleRequest(Map<String, Object> request, Context context) {
-		// Get DynamoDB client
-		AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClient.builder();
-		builder.setRegion("ap-southeast-2");
-		AmazonDynamoDB client = builder.build();
-		Table questionsTable = new DynamoDB(client).getTable("Questions");
+		Table questionsTable = dynamoDB.getTable("Questions");
 
 		Map<String, Object> result = new HashMap<>();
 
@@ -42,7 +48,9 @@ public class GetQuestions implements RequestHandler<Map<String, Object>, Map<Str
 			System.out.println(xspec.getFilterExpression());
 			ItemCollection<ScanOutcome> items = questionsTable.scan(xspec);
 			List<Map<String, Object>> questions = new ArrayList<>();
-			for (Item item: items) questions.add(item.asMap());
+			for (Item item : items) {
+				questions.add(item.asMap());
+			}
 			result.put("questions", questions);
 		}
 
@@ -55,14 +63,18 @@ public class GetQuestions implements RequestHandler<Map<String, Object>, Map<Str
 		ExpressionSpecBuilder builder = new ExpressionSpecBuilder();
 		Condition typeCondition = null;
 		Condition tagsCondition = null;
-		if (type!=null) {
+		if (type != null) {
 			typeCondition = S("questionType").eq(type);
 		}
 		if (tags != null) {
 			// Get the first tag
 			tagsCondition = L("tags").contains(tags.get(0));
 			// Add the rest of the tags
-			if (tags.size() > 1) for (int i=1; i<tags.size(); i++) tagsCondition.or(L("tags").contains(tags.get(i)));
+			if (tags.size() > 1) {
+				for (int i = 1; i < tags.size(); i++) {
+					tagsCondition.or(L("tags").contains(tags.get(i)));
+				}
+			}
 		}
 
 		if (typeCondition == null) {
