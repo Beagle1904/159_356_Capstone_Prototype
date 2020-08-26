@@ -21,7 +21,8 @@ public class UserInfo implements RequestHandler<Map<String, String>, Map<String,
 	public Map<String, String> handleRequest(Map<String, String> input, Context context) {
 		Map<String, String> response = new HashMap<String, String>();
 
-		Item item = dynamoDB.getTable("users").getItem("username", input.get("username"));
+		String user = dynamoDB.getTable("sessions").getItem("token", input.get("sessionToken")).getString("username");
+		Item item = dynamoDB.getTable("users").getItem("username", user);
 
 		if (item != null) {
 			response.put("name", (String) item.get("name"));
