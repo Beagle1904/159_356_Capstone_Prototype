@@ -71,7 +71,7 @@ button:hover {
 				if(data.success == "true"){
 					$('#message').html("Login Successful");
 					window.location.href = "dashboard.html";
-					document.cookie = "username="+username;
+					document.cookie = "sessionToken="+data.sessionToken;
 				} else {
 					$('#errorMessage').show();
 				}

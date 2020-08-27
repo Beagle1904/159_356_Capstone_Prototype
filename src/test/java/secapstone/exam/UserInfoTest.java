@@ -19,7 +19,10 @@ public class UserInfoTest {
 		UserInfo handler = new UserInfo();
 		Context ctx = createContext();
 
-		Map<String, String> output = handler.handleRequest(Collections.singletonMap("username", "alice"), ctx);
+		// Get session token.
+		String sessionToken = TestUtils.createSession("alice");
+
+		Map<String, String> output = handler.handleRequest(Collections.singletonMap("sessionToken", sessionToken), ctx);
 
 		assertEquals("Alice", output.get("name"));
 	}

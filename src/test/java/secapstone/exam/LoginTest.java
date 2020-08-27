@@ -1,6 +1,7 @@
 package secapstone.exam;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class LoginTest {
 		Map<String, String> output = handler.handleRequest(input, ctx);
 
 		assertEquals("true", output.get("success"));
+		assertNotNull(output.get("sessionToken"));
 	}
 
 	private Context createContext() {
