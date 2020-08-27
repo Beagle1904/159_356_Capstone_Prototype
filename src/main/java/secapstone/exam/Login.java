@@ -28,7 +28,7 @@ public class Login implements RequestHandler<Map<String, String>, Map<String, St
 			// Create new session.
 			Map<String, Object> sessionMap = new HashMap<String, Object>();
 			String sessionToken = UUID.randomUUID().toString();
-			sessionMap.put("token", sessionToken);
+			sessionMap.put("sessionToken", sessionToken);
 			sessionMap.put("username", item.get("username"));
 			dynamoDB.getTable("sessions").putItem(Item.fromMap(sessionMap));
 
