@@ -9,7 +9,9 @@
 			let input = JSON.stringify({"code":authCode});
 			$.post("https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/LoginCognito",input,function(data){
 				document.cookie = "sessionToken="+data.sessionToken;
-				window.location.href = "dashboard.html";
+				setTimeout(function(){
+					window.location.href = "dashboard.html";
+				}, 3000 );
 			});
 		});
   </script>
