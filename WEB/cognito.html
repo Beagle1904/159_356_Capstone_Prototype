@@ -4,31 +4,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
 		$(document).ready(function () {
-
-		//Hide error message.
-		$('#errorMessage').hide();
-
-		//Enter key causes login request.
-        $('#idInput, #passwordInput').keyup(function(event){
-            if(event.which === 13){
-                $('#loginButton').click();
-            };
-        });
-
-        //Login request handling.
-		$('#loginButton').click(function() {
-		    let username = $('#usernameInput').val();
-		    let input = JSON.stringify({"username":username,"password":$('#passwordInput').val()});
-			$.post('https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/Login',input,function(data){
-				if(data.success == "true"){
-					$('#message').html("Login Successful");
-					window.location.href = "dashboard.html";
-					document.cookie = "sessionToken="+data.sessionToken;
-				} else {
-					$('#errorMessage').show();
-				}
-			})
-		})
+			let authCode = new URLSearchParams(window.location.search).get("code");
+			
+			let input = JSON.stringify({"code":authCode});
+			$.post("https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/LoginCognito",input,function(data){
+				document.cookie = "sessionToken="+data.sessionToken;
+				indow.location.href = "dashboard.html";
+			});
 		});
   </script>
 </head>
