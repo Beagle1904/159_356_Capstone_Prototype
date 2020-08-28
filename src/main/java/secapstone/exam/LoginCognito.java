@@ -68,7 +68,7 @@ public class LoginCognito implements RequestHandler<Map<String, String>, Map<Str
 			params.add(new BasicNameValuePair("grant_type", "authorization_code"));
 			params.add(new BasicNameValuePair("client_id", "4clnkbs0d41m678c79c55hjjo6"));
 			params.add(new BasicNameValuePair("redirect_uri",
-					"https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/LoginCognito"));
+					"https://master.d2fodol9zy2g3c.amplifyapp.com/cognito.html"));
 			params.add(new BasicNameValuePair("code", authCode));
 			request.setEntity(new UrlEncodedFormEntity(params));
 
