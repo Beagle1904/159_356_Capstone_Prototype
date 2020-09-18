@@ -14,18 +14,7 @@ import com.amazonaws.services.lambda.runtime.Context;
  */
 public class UserInfoTest {
 
-	@Test
-	public void testUserInfo() {
-		UserInfo handler = new UserInfo();
-		Context ctx = createContext();
 
-		// Get session token.
-		String sessionToken = TestUtils.createSession("alice");
-
-		Map<String, String> output = handler.handleRequest(Collections.singletonMap("sessionToken", sessionToken), ctx);
-
-		assertEquals("Alice", output.get("name"));
-	}
 
 	private Context createContext() {
 		TestContext ctx = new TestContext();
