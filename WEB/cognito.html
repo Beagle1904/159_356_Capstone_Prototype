@@ -6,10 +6,12 @@
 		$(document).ready(function () {
 			let authCode = new URLSearchParams(window.location.search).get("code");
 			
-			let input = JSON.stringify({"code":authCode});
-			$.post("https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/LoginCognito",input,function(data){
+			let input = JSON.stringify({"authCode":authCode});
+			$.post("https://8ifqi1ypda.execute-api.ap-southeast-2.amazonaws.com/default/CreateSession",input,function(data){
 				document.cookie = "sessionToken="+data.sessionToken;
-				window.location.href = "dashboard.html";
+				setTimeout(function(){
+					window.location.href = "dashboard.html";
+				}, 3000 );
 			});
 		});
   </script>
