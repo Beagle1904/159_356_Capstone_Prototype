@@ -22,10 +22,10 @@ class DeleteSessionTest extends AbstractDynamoTest {
 		Map<String, Object> createContextMap = new HashMap<>();
 		createContextMap.put("uzer", "Test User");
 		createInputMap.put("context", createContextMap);
-		String sessionID = (String) new CreateSession().handleRequest(createInputMap, context).get("sessionID");
+		String sessionToken = (String) new CreateSession().handleRequest(createInputMap, context).get("sessionToken");
 
 		Map<String, Object> inputMap = new HashMap<>();
-		inputMap.put("sessionID", sessionID);
+		inputMap.put("sessionToken", sessionToken);
 		func.handleRequest(inputMap, context);
 	}
 }

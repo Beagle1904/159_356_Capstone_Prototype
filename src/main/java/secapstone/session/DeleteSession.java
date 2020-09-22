@@ -3,6 +3,7 @@ package secapstone.session;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
@@ -13,6 +14,8 @@ public class DeleteSession implements RequestHandler<Map<String, Object>, String
 
 	@Override
 	public String handleRequest(Map<String, Object> input, Context context) {
+		String sessionToken = (String) input.get("sessionToken");
+		dynamoDB.getTable("sessions").deleteItem(new PrimaryKey("sessionToken", sessionToken));
 		return null;
 	}
 }

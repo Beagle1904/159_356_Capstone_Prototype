@@ -26,7 +26,7 @@ public class CreateSession implements RequestHandler<Map<String, Object>, Map<St
 		String sessionID = makeNewSession(user);
 
 		result.put("username", user);
-		result.put("sessionID", sessionID);
+		result.put("sessionToken", sessionID);
 
 		return result;
 	}

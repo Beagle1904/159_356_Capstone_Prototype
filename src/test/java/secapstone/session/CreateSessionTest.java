@@ -24,6 +24,6 @@ class CreateSessionTest extends AbstractDynamoTest {
 		Map<String, Object> contextMap = new HashMap<>();
 		contextMap.put("uzer", "Test User");
 		inputMap.put("context", contextMap);
-		addItem("sessions", (String) func.handleRequest(inputMap, context).get("sessionID"));
+		addItem("sessions", (String) func.handleRequest(inputMap, context).get("sessionToken"));
 	}
 }
