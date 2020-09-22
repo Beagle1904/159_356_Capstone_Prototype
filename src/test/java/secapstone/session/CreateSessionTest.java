@@ -16,11 +16,7 @@ class CreateSessionTest extends AbstractDynamoTest {
 		super(new String[] {"sessions"}, new String[] {"sessionToken"});
 	}
 
-	CreateSession func;
-	@BeforeEach
-	void createFunc() {
-		func = new CreateSession();
-	}
+	CreateSession func = new CreateSession();
 
 	@Test
 	void handleRequestTest() {
