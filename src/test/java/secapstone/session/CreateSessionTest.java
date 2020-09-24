@@ -1,16 +1,13 @@
 package secapstone.session;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
-import secapstone.exam.TestContext;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@Disabled
 class CreateSessionTest extends AbstractDynamoTest {
 	CreateSessionTest() {
 		super(new String[] {"sessions"}, new String[] {"sessionToken"});

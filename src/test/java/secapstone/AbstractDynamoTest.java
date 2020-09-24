@@ -8,7 +8,6 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import secapstone.exam.TestContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;

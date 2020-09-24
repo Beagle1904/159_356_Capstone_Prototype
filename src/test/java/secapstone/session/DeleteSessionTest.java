@@ -1,5 +1,6 @@
 package secapstone.session;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 class DeleteSessionTest extends AbstractDynamoTest {
 	protected DeleteSessionTest() {
 		super(new String[]{}, new String[]{});
