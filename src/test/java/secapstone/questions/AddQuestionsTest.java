@@ -1,15 +1,18 @@
 package secapstone.questions;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("unchecked")
 class AddQuestionsTest extends AbstractDynamoTest {
 
 	protected AddQuestionsTest() {
@@ -40,9 +43,9 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> testQuestionMap = genTestQuestionMap("");
 		inputMap.put("questions", new Object[] {testQuestionMap});
 
-		Map<String, Object> outputMap = func.handleRequest(inputMap, context);
-		assertEquals(1, ((String[]) outputMap.get("IDs")).length);
-		for (String id: (String[]) outputMap.get("IDs")) {
+		Map<String, Object> outputMap = func.handleRequest(JSONObject.valueToString(inputMap), context);
+		assertEquals(1, ((ArrayList<String>) outputMap.get("IDs")).size());
+		for (String id: (ArrayList<String>) outputMap.get("IDs")) {
 			addItem("Questions", id);
 		}
 	}
@@ -54,7 +57,7 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		incompleteQuestionMap.put("context", "Test failed context");
 		inputMap.put("questions", new Object[] {incompleteQuestionMap});
 
-		assertThrows(Exception.class, () -> func.handleRequest(inputMap, context));
+		assertThrows(Error.class, () -> func.handleRequest(JSONObject.valueToString(inputMap), context));
 	}
 
 	@Test
@@ -68,9 +71,9 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		}
 		inputMap.put("questions", questions);
 
-		Map<String, Object> outputMap = func.handleRequest(inputMap, context);
-		assertEquals(numQuestions, ((String[]) outputMap.get("IDs")).length);
-		for (String id: (String[]) outputMap.get("IDs")) {
+		Map<String, Object> outputMap = func.handleRequest(JSONObject.valueToString(inputMap), context);
+		assertEquals(numQuestions, ((ArrayList<String>) outputMap.get("IDs")).size());
+		for (String id: (ArrayList<String>) outputMap.get("IDs")) {
 			addItem("Questions", id);
 		}
 	}
