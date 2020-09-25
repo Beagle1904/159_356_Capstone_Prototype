@@ -42,6 +42,14 @@ public abstract class AbstractDynamoTest {
 		tables.get(tableName).newItems.add(itemID);
 	}
 
+	protected static Map<String, Object> defaultInputMap() {
+		Map<String, Object> inputMap = new HashMap<>();
+		Map<String, Object> contextMap = new HashMap<>();
+		contextMap.put("uzer", "Test User");
+		inputMap.put("context", contextMap);
+		return inputMap;
+	}
+
 	@BeforeEach
 	void createContext() {
 		context = new TestContext();
