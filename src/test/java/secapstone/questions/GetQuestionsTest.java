@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GetQuestionsTest extends AbstractDynamoTest {
 	// Requires questions to request -- depends on AddQuestions function to provide these
@@ -92,20 +91,20 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		String questionID = UUID.randomUUID().toString();
 
 		Map<String, Object> getRequest = defaultInputMap();
-		getRequest.put("tags", new String[] {"Test Tag 1", "Bad Test Tag"});
+		getRequest.put("tags", new String[]{"Test Tag 1", "Bad Test Tag"});
 
 		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
-		assertEquals(0, ((ArrayList<Object>) getResponse.get("IDs")).size());
+		assertEquals(0, ((ArrayList<Object>) getResponse.get("questions")).size());
 	}
 
 	@Test
 	void getEmptyRequest() {
 		Map<String, Object> getRequest = defaultInputMap();
-		getRequest.put("tags", new String[] {"Test Tag 1", "Bad Test Tag"});
+		getRequest.put("tags", new String[]{"Test Tag 1", "Bad Test Tag"});
 
 		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
 		// Check that questions are returned
-		assertTrue(((ArrayList<Object>) getResponse.get("IDs")).size() > 0);
+		assertEquals(0, ((ArrayList<Object>) getResponse.get("questions")).size());
 	}
 
 	@Test
@@ -114,11 +113,11 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		String[] questionIDs = addMultipleQuestions(numTestQuestions);
 
 		Map<String, Object> getRequest = defaultInputMap();
-		getRequest.put("state", new String[] {"TEST"});
+		getRequest.put("state", new String[]{"TEST"});
 
 		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
 		// Check that the correct number of questions are returned
-		assertTrue(((ArrayList<Object>) getResponse.get("IDs")).size() == numTestQuestions);
+		assertEquals(((ArrayList<Object>) getResponse.get("questions")).size(), numTestQuestions);
 	}
 
 	// Utility functions
@@ -126,18 +125,18 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> addRequest = defaultInputMap();
 
 		Object[] questions = new Object[numQuestions];
-		for (int i=0; i<numQuestions; i++) {
-			questions[i] = genTestQuestionMap(" "+i);
+		for (int i = 0; i < numQuestions; i++) {
+			questions[i] = genTestQuestionMap(" " + i);
 		}
 
 		addRequest.put("questions", questions);
 		Map<String, Object> addResponse = addFunc.handleRequest(JSONObject.valueToString(addRequest), context);
 
 		// Convert the map to a JSONObject to allow easier traversal of JSON structure
-		JSONArray questionsJSONArray = new JSONObject(addResponse).getJSONArray("qustions");
+		JSONArray questionsJSONArray = new JSONObject(addResponse).getJSONArray("IDs");
 		String[] newIDs = new String[numQuestions];
-		for (int i=0; i<numQuestions; i++) {
-			String questionID = questionsJSONArray.getJSONObject(i).getString("ID");
+		for (int i = 0; i < numQuestions; i++) {
+			String questionID = questionsJSONArray.getString(i);
 			newIDs[i] = questionID;
 			addItem("Questions", questionID);
 		}
