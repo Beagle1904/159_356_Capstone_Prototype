@@ -60,7 +60,7 @@ public abstract class AbstractDynamoTest {
 	protected static Map<String, Object> defaultInputMap() {
 		Map<String, Object> inputMap = new HashMap<>();
 		Map<String, Object> contextMap = new HashMap<>();
-		contextMap.put("uzer", "Test User");
+		contextMap.put("uzer", "testUser");
 		inputMap.put("context", contextMap);
 		return inputMap;
 	}

@@ -24,6 +24,13 @@ public class AddQuestions implements RequestHandler<String, Map<String, Object>>
 	public Map<String, Object> handleRequest(String inputJSON, Context context) {
 		// Convert input to JSON object
 		JSONObject input = new JSONObject(inputJSON);
+
+		// Get the user requesting
+		String user = input.getJSONObject("context").getString("uzer");
+		// Get the user's permission level
+		String perms = dynamoDB.getTable("users").getItem("username", user).getString("role");
+
+		// Get questions array
 		JSONArray questions = input.getJSONArray("questions");
 
 		// Get current time
@@ -46,6 +53,25 @@ public class AddQuestions implements RequestHandler<String, Map<String, Object>>
 			dbQuestionObject.put("ID", newQuestionID);
 			dbQuestionObject.put("timeCreated", now);
 			dbQuestionObject.put("timeUpdated", now);
+
+			// Change question type based on user
+			switch (perms) {
+				case "TEST_USER":
+					dbQuestionObject.put("state", "TEST");
+					break;
+				case "ADMINISTRATOR":
+				case "EXAMINER":
+					dbQuestionObject.put("state", "ACTIVE");
+					break;
+				case "SUBMITTER":
+					dbQuestionObject.put("state", "PENDING");
+					break;
+				default:
+					throw new Error("Invalid Credentials");
+			}
+
+			dbQuestionObject.put("addedBy", user);
+
 			newQuestions.add(dbQuestionObject);
 			newIDs.add(newQuestionID);
 		}
