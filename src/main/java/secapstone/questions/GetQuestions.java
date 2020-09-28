@@ -2,8 +2,7 @@ package secapstone.questions;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.xspec.Condition;
 import com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder;
 import com.amazonaws.services.dynamodbv2.xspec.ScanExpressionSpec;
@@ -28,6 +27,10 @@ public class GetQuestions implements RequestHandler<Map<String, Object>, Map<Str
 		if (input.get("ID") != null) questionsArray.add(questionsTable.getItem("ID", input.get("ID")).asMap());
 		else {
 			ScanExpressionSpec xSpec = buildScanSpec(input);
+			ItemCollection<ScanOutcome> items = questionsTable.scan(xSpec);
+			for (Item item : items) {
+				questionsArray.add(item.asMap());
+			}
 		}
 
 		output.put("questions", questionsArray);
@@ -59,8 +62,8 @@ public class GetQuestions implements RequestHandler<Map<String, Object>, Map<Str
 			// Add the rest of the items
 			if (items.length > 1) {
 				for (int i = 1; i < items.length; i++) {
-					if (exclusive) condition.or(L(name).contains(items[i]));
-					else condition.and(L(name).contains(items[i]));
+					if (!exclusive) condition = condition.or(L(name).contains(items[i]));
+					else condition = condition.and(L(name).contains(items[i]));
 				}
 			}
 		}
