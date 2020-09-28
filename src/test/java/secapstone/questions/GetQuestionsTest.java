@@ -108,7 +108,18 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		assertTrue(((ArrayList<Object>) getResponse.get("IDs")).size() > 0);
 	}
 
-	// todo Test: Get based on state
+	@Test
+	void getTestStateQuestions() {
+		final int numTestQuestions = 10;
+		String[] questionIDs = addMultipleQuestions(numTestQuestions);
+
+		Map<String, Object> getRequest = defaultInputMap();
+		getRequest.put("state", new String[] {"TEST"});
+
+		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
+		// Check that the correct number of questions are returned
+		assertTrue(((ArrayList<Object>) getResponse.get("IDs")).size() == numTestQuestions);
+	}
 
 	// Utility functions
 	private String[] addMultipleQuestions(int numQuestions) {
