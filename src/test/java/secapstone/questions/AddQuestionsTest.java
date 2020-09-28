@@ -4,10 +4,8 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,21 +18,6 @@ class AddQuestionsTest extends AbstractDynamoTest {
 	}
 
 	AddQuestions func = new AddQuestions();
-
-	Map<String, Object> genTestQuestionMap(String itemSuffix) {
-		Map<String, Object> testQuestionMap = new HashMap<>();
-
-		testQuestionMap.put("context", "Test Context"+itemSuffix);
-		testQuestionMap.put("details", "Test Details"+itemSuffix);
-		testQuestionMap.put("reason", "Test Reason"+itemSuffix);
-		testQuestionMap.put("image", "https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_1280.png"); // Test image - free for commercial use
-		testQuestionMap.put("questionType", "MCQ");
-		testQuestionMap.put("choices", new String[] {"Choice 0", "Choice 1", "Choice 2"});
-		testQuestionMap.put("answer", 1);
-		testQuestionMap.put("tags", new String[] {"Test Tag 1", "Test Tag 2"});
-
-		return testQuestionMap;
-	}
 
 	@Test
 	void addQuestionTest() {
