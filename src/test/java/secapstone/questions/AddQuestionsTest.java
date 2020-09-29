@@ -1,6 +1,5 @@
 package secapstone.questions;
 
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
@@ -8,7 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("unchecked")
 class AddQuestionsTest extends AbstractDynamoTest {
@@ -24,11 +24,11 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> inputMap = defaultInputMap();
 
 		Map<String, Object> testQuestionMap = genTestQuestionMap("");
-		inputMap.put("questions", new Object[] {testQuestionMap});
+		inputMap.put("questions", new Object[]{testQuestionMap});
 
-		Map<String, Object> outputMap = func.handleRequest(JSONObject.valueToString(inputMap), context);
+		Map<String, Object> outputMap = func.handleRequest(inputMap, context);
 		assertEquals(1, ((ArrayList<String>) outputMap.get("IDs")).size());
-		for (String id: (ArrayList<String>) outputMap.get("IDs")) {
+		for (String id : (ArrayList<String>) outputMap.get("IDs")) {
 			addItem("Questions", id);
 		}
 	}
@@ -38,9 +38,9 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> inputMap = defaultInputMap();
 		Map<String, Object> incompleteQuestionMap = new HashMap<>();
 		incompleteQuestionMap.put("context", "Test failed context");
-		inputMap.put("questions", new Object[] {incompleteQuestionMap});
+		inputMap.put("questions", new Object[]{incompleteQuestionMap});
 
-		assertThrows(Error.class, () -> func.handleRequest(JSONObject.valueToString(inputMap), context));
+		assertThrows(Error.class, () -> func.handleRequest(inputMap, context));
 	}
 
 	@Test
@@ -49,14 +49,14 @@ class AddQuestionsTest extends AbstractDynamoTest {
 
 		final int numQuestions = 10;
 		Object[] questions = new Object[numQuestions];
-		for (int i=0; i<numQuestions; i++) {
-			questions[i] = genTestQuestionMap(" "+i);
+		for (int i = 0; i < numQuestions; i++) {
+			questions[i] = genTestQuestionMap(" " + i);
 		}
 		inputMap.put("questions", questions);
 
-		Map<String, Object> outputMap = func.handleRequest(JSONObject.valueToString(inputMap), context);
+		Map<String, Object> outputMap = func.handleRequest(inputMap, context);
 		assertEquals(numQuestions, ((ArrayList<String>) outputMap.get("IDs")).size());
-		for (String id: (ArrayList<String>) outputMap.get("IDs")) {
+		for (String id : (ArrayList<String>) outputMap.get("IDs")) {
 			addItem("Questions", id);
 		}
 	}

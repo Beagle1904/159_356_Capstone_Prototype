@@ -25,9 +25,9 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> addRequest = defaultInputMap();
 
 		Map<String, Object> testQuestionMap = genTestQuestionMap("");
-		addRequest.put("questions", new Object[] {testQuestionMap});
+		addRequest.put("questions", new Object[]{testQuestionMap});
 
-		Map<String, Object> addResponse = addFunc.handleRequest(JSONObject.valueToString(addRequest), context);
+		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 		String questionID = ((ArrayList<String>) addResponse.get("IDs")).get(0);
 		addItem("Questions", questionID);
 
@@ -117,7 +117,7 @@ class GetQuestionsTest extends AbstractDynamoTest {
 
 		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
 		// Check that the correct number of questions are returned
-		assertEquals(((ArrayList<Object>) getResponse.get("questions")).size(), numTestQuestions);
+		assertEquals(numTestQuestions, ((ArrayList<Object>) getResponse.get("questions")).size());
 	}
 
 	// Utility functions
@@ -130,7 +130,7 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		}
 
 		addRequest.put("questions", questions);
-		Map<String, Object> addResponse = addFunc.handleRequest(JSONObject.valueToString(addRequest), context);
+		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 
 		// Convert the map to a JSONObject to allow easier traversal of JSON structure
 		JSONArray questionsJSONArray = new JSONObject(addResponse).getJSONArray("IDs");

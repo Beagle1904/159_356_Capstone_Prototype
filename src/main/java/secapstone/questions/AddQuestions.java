@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-public class AddQuestions implements RequestHandler<String, Map<String, Object>> {
+public class AddQuestions implements RequestHandler<Map<String, Object>, Map<String, Object>> {
 	private final DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
 
 	private static final String[] REQUIRED_PARAMS = {"context", "details", "reason", "questionType", "choices", "answer", "tags"};
 	private static final String[] OPTIONAL_PARAMS = {"image"};
 
 	@Override
-	public Map<String, Object> handleRequest(String inputJSON, Context context) {
+	public Map<String, Object> handleRequest(Map<String, Object> inputJSON, Context context) {
 		// Convert input to JSON object
 		JSONObject input = new JSONObject(inputJSON);
 
@@ -41,12 +41,12 @@ public class AddQuestions implements RequestHandler<String, Map<String, Object>>
 
 		// Create ArrayList of question JSONObjects
 		List<JSONObject> questionObjects = new ArrayList<>();
-		for (int i=0; i<questions.length(); i++) questionObjects.add(questions.getJSONObject(i));
+		for (int i = 0; i < questions.length(); i++) questionObjects.add(questions.getJSONObject(i));
 
 		// Generate database items
 		ArrayList<Map<String, Object>> newQuestions = new ArrayList<>();
-		ArrayList<String> newIDs = new ArrayList<>();
-		for (JSONObject question: questionObjects) {
+		List<String> newIDs = new ArrayList<>();
+		for (JSONObject question : questionObjects) {
 			// Generate question ID
 			String newQuestionID = UUID.randomUUID().toString();
 			Map<String, Object> dbQuestionObject = question.toMap();
