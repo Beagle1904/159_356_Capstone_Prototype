@@ -18,7 +18,6 @@ public class AddQuestions implements RequestHandler<Map<String, Object>, Map<Str
 	private final DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
 
 	private static final String[] REQUIRED_PARAMS = {"context", "details", "reason", "questionType", "choices", "answer", "tags"};
-	private static final String[] OPTIONAL_PARAMS = {"image"};
 
 	@Override
 	public Map<String, Object> handleRequest(Map<String, Object> inputJSON, Context context) {
