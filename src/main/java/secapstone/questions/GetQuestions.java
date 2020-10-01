@@ -24,8 +24,12 @@ public class GetQuestions implements RequestHandler<Map<String, Object>, Map<Str
 		Table questionsTable = dynamoDB.getTable("Questions");
 
 		ArrayList<Object> questionsArray = new ArrayList<>();
-		if (input.get("ID") != null) questionsArray.add(questionsTable.getItem("ID", input.get("ID")).asMap());
-		else {
+		if (input.get("ID") != null) {
+			Item item = questionsTable.getItem("ID", input.get("ID"));
+			if (item != null) {
+				questionsArray.add(item.asMap());
+			}
+		} else {
 			ScanExpressionSpec xSpec = buildScanSpec(input);
 			ItemCollection<ScanOutcome> items = questionsTable.scan(xSpec);
 			for (Item item : items) {

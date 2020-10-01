@@ -91,7 +91,7 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		String questionID = UUID.randomUUID().toString();
 
 		Map<String, Object> getRequest = defaultInputMap();
-		getRequest.put("tags", new String[]{"Test Tag 1", "Bad Test Tag"});
+		getRequest.put("ID", questionID);
 
 		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
 		assertEquals(0, ((ArrayList<Object>) getResponse.get("questions")).size());
