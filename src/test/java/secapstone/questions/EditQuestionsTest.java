@@ -47,6 +47,8 @@ class EditQuestionsTest extends AbstractDynamoTest {
 		// Edit the question's context and answer variables (String and int)
 		Map<String, Object> editRequest = defaultInputMap();
 		editRequest.put("ID", questionID);
+
+		// Create map of changes
 		Map<String, Object> changesMap = new HashMap<>();
 		changesMap.put("context", "Edited context");
 		changesMap.put("answer", 0);
