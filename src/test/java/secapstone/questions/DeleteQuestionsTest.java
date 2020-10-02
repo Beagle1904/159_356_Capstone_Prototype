@@ -7,6 +7,7 @@ import secapstone.AbstractDynamoTest;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DeleteQuestionsTest extends AbstractDynamoTest {
@@ -35,7 +36,11 @@ class DeleteQuestionsTest extends AbstractDynamoTest {
 
 	@Test
 	void deleteBadIDTest() {
-		//todo THIS
+		String questionID = "AAAA";
+
+		Map<String, Object> deleteRequest = defaultInputMap();
+		deleteRequest.put("ID", questionID);
+		assertDoesNotThrow(() -> deleteFunc.handleRequest(deleteRequest, context));
 	}
 
 	String addOneQuestion() {
