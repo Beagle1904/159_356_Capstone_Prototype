@@ -30,7 +30,7 @@ public class AddQuestions implements RequestHandler<Map<String, Object>, Map<Str
 		String perms = dynamoDB.getTable("users").getItem("username", user).getString("role");
 
 		// Get questions array
-		JSONArray questions = input.getJSONArray("questions");
+		JSONArray questions = input.getJSONObject("body-json").getJSONArray("questions");
 
 		// Get current time
 		String now = LocalDateTime.now(ZoneId.of("UTC")).toString();

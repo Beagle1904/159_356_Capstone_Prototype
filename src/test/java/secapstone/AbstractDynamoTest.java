@@ -59,6 +59,8 @@ public abstract class AbstractDynamoTest {
 
 	protected static Map<String, Object> defaultInputMap() {
 		Map<String, Object> inputMap = new HashMap<>();
+		Map<String, Object> bodyMap = new HashMap<>();
+		inputMap.put("body-json", bodyMap);
 		Map<String, Object> contextMap = new HashMap<>();
 		contextMap.put("uzer", "testUser");
 		inputMap.put("context", contextMap);

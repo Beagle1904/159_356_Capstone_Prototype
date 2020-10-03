@@ -63,7 +63,7 @@ class EditQuestionsTest extends AbstractDynamoTest {
 	String addOneQuestion() {
 		Map<String, Object> addRequest = defaultInputMap();
 		Object[] questionArray = new Object[]{genTestQuestionMap("")};
-		addRequest.put("questions", questionArray);
+		((HashMap) addRequest.get("body-json")).put("questions", questionArray);
 
 		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 

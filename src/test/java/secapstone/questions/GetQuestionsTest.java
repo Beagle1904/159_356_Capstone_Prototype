@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ class GetQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> addRequest = defaultInputMap();
 
 		Map<String, Object> testQuestionMap = genTestQuestionMap("");
-		addRequest.put("questions", new Object[]{testQuestionMap});
+		((HashMap) addRequest.get("body-json")).put("questions", new Object[]{testQuestionMap});
 
 		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 		String questionID = ((ArrayList<String>) addResponse.get("IDs")).get(0);
@@ -129,7 +130,7 @@ class GetQuestionsTest extends AbstractDynamoTest {
 			questions[i] = genTestQuestionMap(" " + i);
 		}
 
-		addRequest.put("questions", questions);
+		((HashMap) addRequest.get("body-json")).put("questions", questions);
 		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 
 		// Convert the map to a JSONObject to allow easier traversal of JSON structure
