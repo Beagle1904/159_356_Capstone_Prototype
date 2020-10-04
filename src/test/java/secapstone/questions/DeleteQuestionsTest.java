@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -27,7 +26,7 @@ class DeleteQuestionsTest extends AbstractDynamoTest {
 		String questionID = addOneQuestion();
 
 		Map<String, Object> deleteRequest = defaultInputMap();
-		deleteRequest.put("ID", questionID);
+		((Map) deleteRequest.get("body-json")).put("ID", questionID);
 		deleteFunc.handleRequest(deleteRequest, context);
 
 		// Delete request is identical to single-question get request
@@ -40,14 +39,14 @@ class DeleteQuestionsTest extends AbstractDynamoTest {
 		String questionID = "AAAA";
 
 		Map<String, Object> deleteRequest = defaultInputMap();
-		deleteRequest.put("ID", questionID);
+		((Map) deleteRequest.get("body-json")).put("ID", questionID);
 		assertDoesNotThrow(() -> deleteFunc.handleRequest(deleteRequest, context));
 	}
 
 	String addOneQuestion() {
 		Map<String, Object> addRequest = defaultInputMap();
 		Object[] questionArray = new Object[]{genTestQuestionMap("")};
-		((HashMap) addRequest.get("body-json")).put("questions", questionArray);
+		((Map) addRequest.get("body-json")).put("questions", questionArray);
 
 		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 

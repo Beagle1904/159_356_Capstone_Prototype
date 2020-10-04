@@ -18,9 +18,8 @@ public class EditQuestions implements RequestHandler<Map<String, Object>, Map<St
 	@Override
 	public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
 		// Convert input to JSON object
-		JSONObject inputJSON = new JSONObject(input);
+		JSONObject inputJSON = new JSONObject((Map) input.get("body-json"));
 
-		System.out.println(inputJSON.getString("ID"));
 		Table table = dynamoDB.getTable("Questions");
 
 		JSONObject changes = inputJSON.getJSONObject("changes");

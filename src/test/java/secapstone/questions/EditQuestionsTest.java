@@ -29,10 +29,10 @@ class EditQuestionsTest extends AbstractDynamoTest {
 
 		// Edit the question's context variable
 		Map<String, Object> editRequest = defaultInputMap();
-		editRequest.put("ID", questionID);
+		((Map) editRequest.get("body-json")).put("ID", questionID);
 		Map<String, String> changesMap = new HashMap<>();
 		changesMap.put("context", "Edited context");
-		editRequest.put("changes", changesMap);
+		((Map) editRequest.get("body-json")).put("changes", changesMap);
 		editFunc.handleRequest(editRequest, context);
 
 		// Check the question's context has changed
@@ -46,13 +46,13 @@ class EditQuestionsTest extends AbstractDynamoTest {
 
 		// Edit the question's context and answer variables (String and int)
 		Map<String, Object> editRequest = defaultInputMap();
-		editRequest.put("ID", questionID);
+		((Map) editRequest.get("body-json")).put("ID", questionID);
 
 		// Create map of changes
 		Map<String, Object> changesMap = new HashMap<>();
 		changesMap.put("context", "Edited context");
 		changesMap.put("answer", 0);
-		editRequest.put("changes", changesMap);
+		((Map) editRequest.get("body-json")).put("changes", changesMap);
 		editFunc.handleRequest(editRequest, context);
 
 		// Check the question's context and answer have changed
@@ -63,7 +63,7 @@ class EditQuestionsTest extends AbstractDynamoTest {
 	String addOneQuestion() {
 		Map<String, Object> addRequest = defaultInputMap();
 		Object[] questionArray = new Object[]{genTestQuestionMap("")};
-		((HashMap) addRequest.get("body-json")).put("questions", questionArray);
+		((Map) addRequest.get("body-json")).put("questions", questionArray);
 
 		Map<String, Object> addResponse = addFunc.handleRequest(addRequest, context);
 
@@ -76,7 +76,7 @@ class EditQuestionsTest extends AbstractDynamoTest {
 
 	Object getQuestionAttrib(String questionID, String attribName) {
 		Map<String, Object> getRequest = defaultInputMap();
-		getRequest.put("ID", questionID);
+		((Map) getRequest.get("body-json")).put("ID", questionID);
 
 		Map<String, Object> getResponse = getFunc.handleRequest(getRequest, context);
 

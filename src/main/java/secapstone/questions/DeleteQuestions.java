@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class DeleteQuestions implements RequestHandler<Map<String, Object>, Map<
 
 	@Override
 	public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
-		dynamoDB.getTable("Questions").deleteItem("ID", input.get("ID"));
+		dynamoDB.getTable("Questions").deleteItem("ID", new JSONObject(input).getJSONObject("body-json").getString("ID"));
 		return null;
 	}
 }

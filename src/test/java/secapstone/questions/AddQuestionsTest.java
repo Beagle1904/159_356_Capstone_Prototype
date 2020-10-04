@@ -24,7 +24,7 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> inputMap = defaultInputMap();
 
 		Map<String, Object> testQuestionMap = genTestQuestionMap("");
-		((HashMap) inputMap.get("body-json")).put("questions", new Object[]{testQuestionMap});
+		((Map) inputMap.get("body-json")).put("questions", new Object[]{testQuestionMap});
 
 		Map<String, Object> outputMap = func.handleRequest(inputMap, context);
 		assertEquals(1, ((ArrayList<String>) outputMap.get("IDs")).size());
@@ -38,7 +38,7 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		Map<String, Object> inputMap = defaultInputMap();
 		Map<String, Object> incompleteQuestionMap = new HashMap<>();
 		incompleteQuestionMap.put("context", "Test failed context");
-		((HashMap) inputMap.get("body-json")).put("questions", new Object[]{incompleteQuestionMap});
+		((Map) inputMap.get("body-json")).put("questions", new Object[]{incompleteQuestionMap});
 
 		assertThrows(Error.class, () -> func.handleRequest(inputMap, context));
 	}
@@ -52,7 +52,7 @@ class AddQuestionsTest extends AbstractDynamoTest {
 		for (int i = 0; i < numQuestions; i++) {
 			questions[i] = genTestQuestionMap(" " + i);
 		}
-		((HashMap) inputMap.get("body-json")).put("questions", questions);
+		((Map) inputMap.get("body-json")).put("questions", questions);
 
 		Map<String, Object> outputMap = func.handleRequest(inputMap, context);
 		assertEquals(numQuestions, ((ArrayList<String>) outputMap.get("IDs")).size());

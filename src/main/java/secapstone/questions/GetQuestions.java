@@ -19,7 +19,8 @@ public class GetQuestions implements RequestHandler<Map<String, Object>, Map<Str
 	private final DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
 
 	@Override
-	public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
+	public Map<String, Object> handleRequest(Map<String, Object> inputJSON, Context context) {
+		Map<String, Object> input = (Map) inputJSON.get("body-json");
 		Map<String, Object> output = new HashMap<>();
 		Table questionsTable = dynamoDB.getTable("Questions");
 
