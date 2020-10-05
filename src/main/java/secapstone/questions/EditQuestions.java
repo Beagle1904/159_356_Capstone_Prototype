@@ -10,6 +10,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Map;
 
 public class EditQuestions implements RequestHandler<Map<String, Object>, Map<String, Object>> {
@@ -28,6 +30,9 @@ public class EditQuestions implements RequestHandler<Map<String, Object>, Map<St
 		for (String change : changes.keySet()) {
 			updateItemSpec.addAttributeUpdate(new AttributeUpdate(change).put(changes.get(change)));
 		}
+
+		String now = LocalDateTime.now(ZoneId.of("UTC")).toString();
+		updateItemSpec.addAttributeUpdate(new AttributeUpdate("timeUpdated").put(now));
 
 		table.updateItem(updateItemSpec);
 		return null;
