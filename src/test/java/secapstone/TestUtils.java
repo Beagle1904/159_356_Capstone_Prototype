@@ -1,4 +1,4 @@
-package secapstone.exam;
+package secapstone;
 
 import java.io.IOException;
 import java.io.InputStream;
