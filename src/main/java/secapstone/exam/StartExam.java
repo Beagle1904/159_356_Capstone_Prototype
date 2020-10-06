@@ -28,7 +28,6 @@ public class StartExam extends AbstractExamFunction {
 	}
 
 	private boolean examInProgress(Item user) {
-		System.out.println(user.get("exam"));
 		return user.get("exam") != null;
 	}
 }

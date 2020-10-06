@@ -77,7 +77,7 @@ class StartExamTest extends AbstractDynamoTest {
 	@AfterEach
 	void clearExams() {
 		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("username", TEST_USERNAME);
-		updateItemSpec.addAttributeUpdate(new AttributeUpdate("exam").put(null));
+		updateItemSpec.addAttributeUpdate(new AttributeUpdate("exam").delete());
 		USERS.updateItem(updateItemSpec);
 	}
 
@@ -124,6 +124,6 @@ class StartExamTest extends AbstractDynamoTest {
 
 	private boolean checkExam() {
 		updateUser();
-		return testUser.getMap("exam") == null;
+		return testUser.getMap("exam") != null;
 	}
 }
