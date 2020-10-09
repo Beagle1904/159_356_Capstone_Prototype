@@ -83,8 +83,16 @@ public class StartExam extends AbstractExamFunction {
 		String examType = inputJSON.getJSONObject("body-json").getString("type");
 
 		// Get questions for the exam
-		Question[] questions = getQuestions(inputJSON.getJSONObject("body-json"));
-
+		Question[] questions;
+		switch (examType) {
+			case "PRACTICE":
+				questions = getQuestions(inputJSON.getJSONObject("body-json"));
+				break;
+			case "":
+				throw new Error("No exam type provided");
+			default:
+				throw new Error("Unsupported exam type");
+		}
 		// Create the exam object
 		Map<String, Object> examMap = genExamMap(examType, questions);
 
