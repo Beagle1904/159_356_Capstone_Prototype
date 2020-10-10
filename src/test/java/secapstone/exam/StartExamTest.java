@@ -72,6 +72,23 @@ class StartExamTest extends AbstractDynamoTest {
 		assertFalse(checkDupes());
 	}
 
+	@Test
+	void createPracticeInsufficientQuestions() {
+		// Generate test questions
+		addMultipleQuestions(10);
+
+		Map<String, Object> startMap = defaultInputMap();
+		((Map) startMap.get("body-json")).put("type", "PRACTICE");
+		Map<String, Integer> questionsMap = new HashMap<>();
+		questionsMap.put("Test Tag 1", 12);
+		((Map) startMap.get("body-json")).put("questions", questionsMap);
+
+		startFunc.handleRequest(startMap, context);
+
+		assertTrue(checkExam());
+		assertFalse(checkDupes());
+	}
+
 	//todo Mock exam tests
 
 	@AfterEach

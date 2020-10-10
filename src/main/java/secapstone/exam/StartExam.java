@@ -24,6 +24,7 @@ public class StartExam extends AbstractExamFunction {
 	// Gets a random selection of the size specified from the list provided
 	private static Object[] randomChoice(List<?> list, int numToGet) {
 		Random r = new Random();
+		if (numToGet > list.size()) numToGet = list.size();
 		Object[] output = new Object[numToGet];
 
 		for (int i = 0; i < numToGet; i++) {
