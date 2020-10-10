@@ -1,6 +1,9 @@
 package secapstone.exam;
 
-import com.amazonaws.services.dynamodbv2.document.*;
+import com.amazonaws.services.dynamodbv2.document.AttributeUpdate;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.xspec.Condition;
 import com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder;
@@ -9,30 +12,14 @@ import com.amazonaws.services.lambda.runtime.Context;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.L;
 
 public class StartExam extends AbstractExamFunction {
-	private static final Table QUESTIONS = DYNAMO_DB.getTable("Questions");
-
-	// Returns an array
-	protected static Object[] shuffleList(List<?> list) {
-		return randomChoice(list, list.size());
-	}
-
-	// Gets a random selection of the size specified from the list provided
-	private static Object[] randomChoice(List<?> list, int numToGet) {
-		Random r = new Random();
-		if (numToGet > list.size()) numToGet = list.size();
-		Object[] output = new Object[numToGet];
-
-		for (int i = 0; i < numToGet; i++) {
-			output[i] = list.remove(r.nextInt(list.size()));
-		}
-
-		return output;
-	}
 
 	private static Map<String, Object> genExamMap(String examType, Question[] questions) {
 		Map<String, Object> examMap = new HashMap<>();
@@ -43,22 +30,6 @@ public class StartExam extends AbstractExamFunction {
 		}
 		examMap.put("questions", questionsJSONArray.toList());
 		return examMap;
-	}
-
-	private static String[] toStringArray(Object[] objects) {
-		String[] strings = new String[objects.length];
-		for (int i = 0; i < objects.length; i++) {
-			strings[i] = (String) objects[i];
-		}
-		return strings;
-	}
-
-	private static Integer[] toIntArray(Object[] objects) {
-		Integer[] ints = new Integer[objects.length];
-		for (int i = 0; i < objects.length; i++) {
-			ints[i] = (Integer) objects[i];
-		}
-		return ints;
 	}
 
 	private static Question[] toQuestionArray(Object[] objects) {
@@ -103,10 +74,6 @@ public class StartExam extends AbstractExamFunction {
 		USERS.updateItem(updateSpec);
 
 		return null;
-	}
-
-	private boolean examInProgress(Item user) {
-		return user.get("exam") != null;
 	}
 
 	private Question[] getQuestions(JSONObject inputJSON) {
