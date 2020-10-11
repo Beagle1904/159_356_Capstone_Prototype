@@ -21,7 +21,7 @@ Edit user* | /users/edit (POST) | `{ "user":"XXXX", "changes": { "name":"John Sm
 Get full summary* | /summary (GET) | *N/A* | Gets the summary for examiner dashboard
 Start a mock exam* | /exam/start (POST) | `{ "type":"MOCK" }` | Starts an informal mock exam. Questions are automatically selected.
 Start practice questions | /exam/start (POST) | `{ "type":"PRACTICE", "questions":{"*tagName*":##...} }` | Starts a set of practice questions. By providing pairs of tagNames to the number of questions of that tag, you can specialise what kinds of questions are to be included.
-Get question from exam* | /exam/get?question=## (GET) | *N/A* | Gets a question's details from the current in-progress exam. Fails if there is no exam in progress
+Get question from exam | /exam/get?question=## (GET) | *N/A* | Gets a question's details from the current in-progress exam. Fails if there is no exam in progress
 Get summary of current exam* | /exam/summary (GET) | *N/A* | Gets a summary of the current exam in progress
 Submit exam* | /exam/submit (POST) | *N/A* | Submits current exam results to the database and ends the exam
 ### Practice questions requests
