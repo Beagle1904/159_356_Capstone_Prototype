@@ -84,6 +84,7 @@ public class StartExam extends AbstractExamFunction {
 				if (!questionsList.contains(question)) questionsList.add(question);
 			}
 		}
+
 		return toQuestionArray(shuffleList(questionsList));
 	}
 
@@ -108,8 +109,10 @@ public class StartExam extends AbstractExamFunction {
 	private ScanExpressionSpec getScanSpec(String tagName, String userRole) {
 		ExpressionSpecBuilder builder = new ExpressionSpecBuilder();
 
-		Condition listContainsCondition = L("tags").contains(tagName);
-		builder.withCondition(listContainsCondition);
+		if (!tagName.equals("")) {
+			Condition listContainsCondition = L("tags").contains(tagName);
+			builder.withCondition(listContainsCondition);
+		}
 
 		Condition stateCondition = userRole.equals("TEST_USER") ? S("state").eq("TEST") : S("state").eq("ACTIVE");
 		builder.withCondition(stateCondition);
