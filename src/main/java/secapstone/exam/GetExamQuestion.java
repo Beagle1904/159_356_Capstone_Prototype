@@ -44,8 +44,8 @@ public class GetExamQuestion extends AbstractExamFunction {
 
 		Map<String, Object> questionMap = getQuestionAttribs(requestQuestion);
 
-		String questionID = requestQuestion.getString("questionID");
-		questionMap.put("questionID", questionID);
+		questionMap.put("questionID", requestQuestion.getString("questionID"));
+		questionMap.put("chosen", requestQuestion.has("chosen") ? requestQuestion.getInt("chosen") : null);
 		return questionMap;
 	}
 
