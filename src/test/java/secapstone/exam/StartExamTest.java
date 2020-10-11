@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
@@ -91,11 +92,16 @@ class StartExamTest extends AbstractDynamoTest {
 
 	//todo Mock exam tests
 
-	@AfterEach
-	void clearExams() {
+	@BeforeAll
+	static void clearExams() {
 		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("username", TEST_USERNAME);
 		updateItemSpec.addAttributeUpdate(new AttributeUpdate("exam").delete());
 		USERS.updateItem(updateItemSpec);
+	}
+
+	@AfterEach
+	void cleanUp() {
+		clearExams();
 	}
 
 	// Utility functions

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.L;
+import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.S;
 
 public class StartExam extends AbstractExamFunction {
 
@@ -58,7 +59,7 @@ public class StartExam extends AbstractExamFunction {
 		Question[] questions;
 		switch (examType) {
 			case "PRACTICE":
-				questions = getQuestions(inputJSON.getJSONObject("body-json"));
+				questions = getQuestions(inputJSON.getJSONObject("body-json"), user.getString("role"));
 				break;
 			case "":
 				throw new Error("No exam type provided");
@@ -76,18 +77,18 @@ public class StartExam extends AbstractExamFunction {
 		return null;
 	}
 
-	private Question[] getQuestions(JSONObject inputJSON) {
+	private Question[] getQuestions(JSONObject inputJSON, String userRole) {
 		List<Question> questionsList = new ArrayList<>();
 		for (String tagName : inputJSON.getJSONObject("questions").keySet()) {
-			for (Question question : getTagQuestions(tagName, inputJSON.getJSONObject("questions").getInt(tagName))) {
+			for (Question question : getTagQuestions(tagName, inputJSON.getJSONObject("questions").getInt(tagName), userRole)) {
 				if (!questionsList.contains(question)) questionsList.add(question);
 			}
 		}
 		return toQuestionArray(shuffleList(questionsList));
 	}
 
-	private List<Question> getTagQuestions(String tagName, int numQuestions) {
-		ScanExpressionSpec scanSpec = getScanSpec(tagName);
+	private List<Question> getTagQuestions(String tagName, int numQuestions, String userRole) {
+		ScanExpressionSpec scanSpec = getScanSpec(tagName, userRole);
 		ItemCollection<ScanOutcome> items = QUESTIONS.scan(scanSpec);
 		List<String> questionIDs = new ArrayList<>();
 		for (Item item : items) {
@@ -104,11 +105,15 @@ public class StartExam extends AbstractExamFunction {
 		return questions;
 	}
 
-	private ScanExpressionSpec getScanSpec(String tagName) {
+	private ScanExpressionSpec getScanSpec(String tagName, String userRole) {
 		ExpressionSpecBuilder builder = new ExpressionSpecBuilder();
 
 		Condition listContainsCondition = L("tags").contains(tagName);
 		builder.withCondition(listContainsCondition);
+
+		Condition stateCondition = userRole.equals("TEST_USER") ? S("state").eq("TEST") : S("state").eq("ACTIVE");
+		builder.withCondition(stateCondition);
+
 		builder.addProjections("ID");
 
 		return builder.buildForScan();
