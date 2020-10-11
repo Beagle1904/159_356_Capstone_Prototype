@@ -2,7 +2,6 @@ package secapstone.exam;
 
 import com.amazonaws.services.dynamodbv2.document.AttributeUpdate;
 import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StartExamTest extends AbstractDynamoTest {
-	static final Table USERS = DYNAMO_DB.getTable("users");
-	static final String TEST_USERNAME = "testUser";
 	Item testUser;
 
 	// Requires questions to request -- depends on AddQuestions function to provide these

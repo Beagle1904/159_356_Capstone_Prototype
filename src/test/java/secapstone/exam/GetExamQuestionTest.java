@@ -1,7 +1,11 @@
 package secapstone.exam;
 
+import com.amazonaws.services.dynamodbv2.document.AttributeUpdate;
+import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import secapstone.AbstractDynamoTest;
 import secapstone.questions.AddQuestions;
@@ -32,15 +36,11 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		assertDoesNotThrow(() -> getExamQuestionFunc.handleRequest(getRequest, context));
 	}
 
-	@Test
-	void getSameQuestionTest() {
-		startPractice();
-
-		Map<String, Object> getRequest = defaultInputMap();
-		((Map) getRequest.get("params")).put("question", 0);
-
-		String questionID = (String) getExamQuestionFunc.handleRequest(getRequest, context).get("ID");
-		assertEquals(questionID, getExamQuestionFunc.handleRequest(getRequest, context).get("ID"));
+	@BeforeAll
+	static void clearExams() {
+		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("username", TEST_USERNAME);
+		updateItemSpec.addAttributeUpdate(new AttributeUpdate("exam").delete());
+		USERS.updateItem(updateItemSpec);
 	}
 
 	@Test
@@ -60,6 +60,17 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		((Map) getRequest.get("params")).put("question", 10); // Out of bounds
 
 		assertThrows(Error.class, () -> getExamQuestionFunc.handleRequest(getRequest, context));
+	}
+
+	@Test
+	void getSameQuestionTest() {
+		startPractice();
+
+		Map<String, Object> getRequest = defaultInputMap();
+		((Map) getRequest.get("params")).put("question", 0);
+
+		String questionID = (String) getExamQuestionFunc.handleRequest(getRequest, context).get("questionID");
+		assertEquals(questionID, getExamQuestionFunc.handleRequest(getRequest, context).get("questionID"));
 	}
 
 	// Utility functions
@@ -95,5 +106,18 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		}
 
 		return newIDs;
+	}
+
+	@Test
+	void getNoExamTest() {
+		Map<String, Object> getRequest = defaultInputMap();
+		((Map) getRequest.get("params")).put("question", 10); // Out of bounds
+
+		assertThrows(Error.class, () -> getExamQuestionFunc.handleRequest(getRequest, context));
+	}
+
+	@AfterEach
+	void cleanUp() {
+		clearExams();
 	}
 }
