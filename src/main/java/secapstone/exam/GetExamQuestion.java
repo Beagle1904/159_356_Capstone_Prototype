@@ -13,7 +13,6 @@ public class GetExamQuestion extends AbstractExamFunction {
 	public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
 		JSONObject inputJSON = new JSONObject(input);
 		Item user = getUser(inputJSON);
-		String username = user.getString("username");
 
 		// Check that there is an exam in progress
 		if (!examInProgress(user)) {
@@ -28,9 +27,7 @@ public class GetExamQuestion extends AbstractExamFunction {
 			throw new Error("No position parameter provided");
 		}
 
-		Map<String, Object> output = getExamQuestion(user, questionNumber);
-
-		return output;
+		return getExamQuestion(user, questionNumber);
 	}
 
 	private Map<String, Object> getExamQuestion(Item user, int questionNumber) {
