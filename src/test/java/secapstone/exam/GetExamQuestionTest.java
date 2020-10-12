@@ -26,6 +26,13 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		super(new String[]{"Questions"}, new String[]{"ID"});
 	}
 
+	@BeforeAll
+	static void clearExams() {
+		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("username", TEST_USERNAME);
+		updateItemSpec.addAttributeUpdate(new AttributeUpdate("exam").delete());
+		USERS.updateItem(updateItemSpec);
+	}
+
 	@Test
 	void getPracticeQuestionTest() {
 		startPractice();
@@ -34,13 +41,6 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		((Map) getRequest.get("params")).put("question", 0);
 
 		assertDoesNotThrow(() -> getExamQuestionFunc.handleRequest(getRequest, context));
-	}
-
-	@BeforeAll
-	static void clearExams() {
-		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("username", TEST_USERNAME);
-		updateItemSpec.addAttributeUpdate(new AttributeUpdate("exam").delete());
-		USERS.updateItem(updateItemSpec);
 	}
 
 	@Test
@@ -71,6 +71,19 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 
 		String questionID = (String) getExamQuestionFunc.handleRequest(getRequest, context).get("questionID");
 		assertEquals(questionID, getExamQuestionFunc.handleRequest(getRequest, context).get("questionID"));
+	}
+
+	@Test
+	void getNoExamTest() {
+		Map<String, Object> getRequest = defaultInputMap();
+		((Map) getRequest.get("params")).put("question", 10); // Out of bounds
+
+		assertThrows(Error.class, () -> getExamQuestionFunc.handleRequest(getRequest, context));
+	}
+
+	@AfterEach
+	void cleanUp() {
+		clearExams();
 	}
 
 	// Utility functions
@@ -106,18 +119,5 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		}
 
 		return newIDs;
-	}
-
-	@Test
-	void getNoExamTest() {
-		Map<String, Object> getRequest = defaultInputMap();
-		((Map) getRequest.get("params")).put("question", 10); // Out of bounds
-
-		assertThrows(Error.class, () -> getExamQuestionFunc.handleRequest(getRequest, context));
-	}
-
-	@AfterEach
-	void cleanUp() {
-		clearExams();
 	}
 }
