@@ -16,6 +16,7 @@ public abstract class AbstractExamFunction implements RequestHandler<Map<String,
 	protected static final DynamoDB DYNAMO_DB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
 	protected static final Table QUESTIONS = DYNAMO_DB.getTable("Questions");
 	protected static final Table USERS = DYNAMO_DB.getTable("users");
+	protected static final Table RESULTS = DYNAMO_DB.getTable("results");
 
 	protected static Item getUser(JSONObject json) {
 		return USERS.getItem("username", json.getJSONObject("context").getString("uzer"));
