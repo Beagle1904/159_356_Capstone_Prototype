@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
+        <title>Online Exam Platform - Practice Exam Question Selection</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -18,7 +18,52 @@
 
 <body>
 
+<div class="container p-3 my-3">
 
+    <h2 class="font-weight-bold">Online Exam Platform</h2>
+
+	<div class="card" style="width: 100%;"> 
+		<div class="card-header">
+            <h4>Practice Exam - Question Selection</h4>
+        </div>
+		
+		<form class="form-horizontal align-items-center">
+		<fieldset>
+		
+		</br>
+		
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="questionTag">Question Tag</label>  
+			<div class="col-md-4">
+			<input id="questionTag" name="questionTag" type="text" placeholder="Enter question subject to answer" class="form-control input-md">
+		</div>
+		
+		</br>
+		
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="questionTag">Number of Questions</label>  
+			<div class="col-md-4">
+			<input id="questionTag" name="questionTag" type="text" placeholder="How many questions of this subject" class="form-control input-md">
+		</div>
+		
+		</br>
+		
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="addTag">Add another subject?</label>
+			<div class="col-md-4">
+				<button id="addTag" name="addTag" class="btn btn-primary">Add</button>
+			</div>
+		</div>
+		
+		</fieldset>
+		</form>
+		
+		
+		<button id="submitQuestions" type="submit" class="btn btn-primary">Start Exam</button>
+		
+	</div>
+
+</div>
 
 </body>
 
