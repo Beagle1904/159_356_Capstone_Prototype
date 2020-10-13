@@ -1,5 +1,6 @@
 package secapstone.exam;
 
+import com.amazonaws.services.dynamodbv2.document.AttributeUpdate;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ public class SubmitExam extends AbstractExamFunction {
 
 		Item resultItem = genResultItem(user);
 		RESULTS.putItem(resultItem);
+		USERS.updateItem("username", user.getString("username"), new AttributeUpdate("exam").delete());
 		return null;
 	}
 
@@ -50,7 +52,7 @@ public class SubmitExam extends AbstractExamFunction {
 		String questionID = question.getString("questionID");
 		Item questionItem = QUESTIONS.getItem("ID", questionID);
 
-		int actualChosen = question.getJSONArray("answerOrder").getInt(question.getInt("chosen"));
+		int actualChosen = question.getJSONArray("answerOrder").getInt(question.getInt("answer"));
 		int correctAnswer = questionItem.getInt("answer");
 
 		Map<String, Object> output = new HashMap<>();

@@ -17,6 +17,9 @@ public class ExamSummary extends AbstractExamFunction {
 			throw new Error("No exam in progress");
 		}
 
-		return user.getMap("exam");
+		Map<String, Object> output = user.getMap("exam");
+		output.remove("answerOrder");
+
+		return output;
 	}
 }
