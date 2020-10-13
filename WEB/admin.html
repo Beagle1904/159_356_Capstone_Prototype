@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="css/exam.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+<div class="container p-3 my-3">
+
+    <h2 class="font-weight-bold">Online Exam Platform</h2>
+
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <h4>Administration panel</h4>
+        </div>
+
+        <div class="card-body">
+
+        <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+            <li class="nav-item">
+            <a class="nav-link active" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab"
+               aria-controls="nav-list" aria-selected="true">Questions</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" id="nav-users-tab" data-toggle="tab" href="#nav-users" role="tab"
+               aria-controls="nav-users" aria-selected="false">Users</a>
+            </li>
+        </ul>
+
+
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+            <br/>
+
+            <div class="btn-group pull-right" role="group" aria-label="Button group with nested dropdown">
+
+                <button id="refreshQuestionsButton" class="btn btn-primary"><span class="fa fa-refresh"></span></button>
+                <button id="newQuestionButton" class="btn btn-primary"><span class="fa fa-plus"></span></button>
+
+                <div class="btn-group " role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-pencil-square"></span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item" id="editQuestionButton" href="#">Edit</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="btn-group pull-right" role="group" aria-label="Basic example">
+
+
+            </div>
+
+            <br/>
+            <table class="table" id="questionsTable">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Tag</th>
+
+                </tr>
+                </thead>
+                <tbody id="questionsTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+            <br/>
+            <button id="refreshUsersButton" class="btn btn-primary pull-right"><span class="fa fa-refresh"></span></button>
+            <br/>
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+
+                </tr>
+                </thead>
+                <tbody id="users">
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+    </div>
+    </div>
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="editQuestionModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Question details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+
+                            <!-- Form Name -->
+                            <br/>
+
+                            <div class="form-group">
+                                <label class="control-label" for="question">Type</label>
+                                <div>
+                                    <input id="type" name="textinput" type="text" placeholder=""
+                                           class="form-control input-md">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="question">Details</label>
+                                <div>
+                                    <input id="details" name="textinput" type="text" placeholder=""
+                                           class="form-control input-md">
+
+                                </div>
+                            </div>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="control-label" for="question">Context</label>
+                                <div>
+                                    <input id="context" name="textinput" type="text" placeholder=""
+                                           class="form-control input-md">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="question">Tags</label>
+                                <div>
+                                    <input id="tags" name="textinput" type="text" placeholder=""
+                                           class="form-control input-md">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="answer">Answer</label>
+                                <div>
+                                    <input id="answer" name="answer" type="text" placeholder="" class="form-control input-md">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="textinput">Choices</label>
+
+                            </div>
+                            <div class="form-group fieldGroup">
+                                <div class="input-group">
+                                    <input type="text" name="choice[]" class="form-control input-md" placeholder=""/>
+
+                                </div>
+                            </div>
+                            <div class="input-group-addon">
+                                <a href="javascript:void(0)" class="btn btn-success addMore"><span
+                                        class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a>
+                            </div>
+
+
+                        </fieldset>
+                    </form>
+
+                    <!-- copy of input fields group -->
+                    <div class="form-group fieldGroupCopy" style="display: none;">
+                        <div class="input-group">
+                            <input type="text" name="choice[]" class="form-control" placeholder="" input-md/>
+                            <div class="input-group-addon pull-right">
+                                <a href="javascript:void(0)" class="btn btn-danger remove pull-right"><span
+                                        class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a>
+                            </div>
+                        </div>
+                    </div>                </div>
+
+                <div class="modal-footer">
+                    <button id="updateQuestionButton" type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<!--
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+-->
+
+<script src="js/vendor/jquery-3.1.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="js/vendor/aws-cognito-sdk.min.js"></script>
+<script src="js/vendor/amazon-cognito-identity.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/cognito-auth.js"></script>
+<script src="js/esri-map.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
