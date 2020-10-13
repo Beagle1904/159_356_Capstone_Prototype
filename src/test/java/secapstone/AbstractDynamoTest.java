@@ -14,16 +14,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractDynamoTest {
-	static final protected DynamoDB DYNAMO_DB  = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
+	static final protected DynamoDB DYNAMO_DB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
+	static final protected Table USERS = DYNAMO_DB.getTable("users");
+	static final protected String TEST_USERNAME = "testUser";
 
 	protected Context context;
 
 	static protected Map<String, Object> genTestQuestionMap(String itemSuffix) {
 		Map<String, Object> testQuestionMap = new HashMap<>();
 
-		testQuestionMap.put("context", "Test Context"+itemSuffix);
-		testQuestionMap.put("details", "Test Details"+itemSuffix);
-		testQuestionMap.put("reason", "Test Reason"+itemSuffix);
+		testQuestionMap.put("context", "Test Context" + itemSuffix);
+		testQuestionMap.put("details", "Test Details" + itemSuffix);
+		testQuestionMap.put("reason", "Test Reason" + itemSuffix);
 		testQuestionMap.put("image", "https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_1280.png"); // Test image - free for commercial use
 		testQuestionMap.put("questionType", "MCQ");
 		testQuestionMap.put("choices", new String[] {"Choice 0", "Choice 1", "Choice 2"});
@@ -61,6 +63,8 @@ public abstract class AbstractDynamoTest {
 		Map<String, Object> inputMap = new HashMap<>();
 		Map<String, Object> bodyMap = new HashMap<>();
 		inputMap.put("body-json", bodyMap);
+		Map<String, Object> paramsMap = new HashMap<>();
+		inputMap.put("params", paramsMap);
 		Map<String, Object> contextMap = new HashMap<>();
 		contextMap.put("uzer", "testUser");
 		inputMap.put("context", contextMap);
