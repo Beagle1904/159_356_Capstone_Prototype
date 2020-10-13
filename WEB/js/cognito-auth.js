@@ -13,8 +13,8 @@ var ExamPlatform = window.ExamPlatform || {};
     var userPool;
 
     if (!(_config.cognito.userPoolId &&
-        _config.cognito.userPoolClientId &&
-        _config.cognito.region)) {
+          _config.cognito.userPoolClientId &&
+          _config.cognito.region)) {
         $('#noCognitoMessage').show();
         return;
     }
@@ -80,9 +80,9 @@ var ExamPlatform = window.ExamPlatform || {};
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: onSuccess,
             onFailure: onFailure,
-            newPasswordRequired: function (userAttributes) {
-                delete userAttributes.email_verified;
-                cognitoUser.completeNewPasswordChallenge(password, userAttributes, this);
+            newPasswordRequired: function (userAttributes)  {
+                        delete userAttributes.email_verified;
+                        cognitoUser.completeNewPasswordChallenge(password, userAttributes, this);
             }
         });
     }
@@ -113,18 +113,18 @@ var ExamPlatform = window.ExamPlatform || {};
      */
 
     $(function onDocReady() {
-        $('#loginBtn').click(handleSignin);
+        $('#loginButton').click(handleSignin);
         $('#registrationForm').submit(handleRegister);
         $('#verifyForm').submit(handleVerify);
     });
 
     function handleSignin(event) {
-        var email = $('#inputUser').val();
-        var password = $('#inputPassword').val();
+        var email = $('#usernameInput').val();
+        var password = $('#passwordInput').val();
         event.preventDefault();
         signin(email, password,
             function signinSuccess() {
-                alert("logged in");
+            alert("logged in");
                 console.log('Successfully Logged In');
                 window.location.href = 'index.html';
             },

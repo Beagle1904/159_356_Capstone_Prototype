@@ -15,13 +15,12 @@ ExamPlatform.map = ExamPlatform.map || {};
         alert(error);
         window.location.href = '/signin.html';
     });
-
     function requestUnicorn(pickupLocation) {
         $.ajax({
             method: 'POST',
             url: _config.api.invokeUrl + '/foo',
             headers: {
-                Authorization: authToken
+                Authorization:  authToken
             },
             data: JSON.stringify({
                 PickupLocation: {

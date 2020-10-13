@@ -2,6 +2,8 @@
 
 ## API documentation
 Invoke URL (dev): https://mkwhjgbfl6.execute-api.ap-southeast-2.amazonaws.com/dev
+
+*Methods marked with an asterisk are not implemented*
 METHOD | PATH | REQUEST FORMAT | DESCRIPTION
 --- | --- | :--- | ---
 Add questions | /questions/add (POST) | `{ "questions": [ {"context":"Test context"...} ... ] }` | Used to add questions to the database. Question state is automatically designated based on the user's role<br>Required parameters are: context, details, reason, questionType, choices, answer, tags<br>Optional params are: image
@@ -18,9 +20,10 @@ Delete user* | /users/delete (POST) | `{ "user":"XXXX" }` | Deletes a user from 
 Edit user* | /users/edit (POST) | `{ "user":"XXXX", "changes": { "name":"John Smith"... } }` | Changes a user's attributes<br>Unchangeable attributes: username, email, password
 Get full summary* | /summary (GET) | *N/A* | Gets the summary for examiner dashboard
 Start a mock exam* | /exam/start (POST) | `{ "type":"MOCK" }` | Starts an informal mock exam. Questions are automatically selected.
-Start practice questions* | /exam/start (POST) | `{ "type":"PRACTICE", "questions":{"*tagName*":##...} }` | Starts a set of practice questions. By providing pairs of tagNames to the number of questions of that tag, you can specialise what kinds of questions are to be included.
-Get question from exam* | /exam/get?question=## (GET) | *N/A* | Gets a question's details from the current in-progress exam. Fails if there is no exam in progress
-Get summary of current exam* | /exam/summary (GET) | *N/A* | Gets a summary of the current exam in progress
+Start practice questions | /exam/start (POST) | `{ "type":"PRACTICE", "questions":{"*tagName*":##...} }` | Starts a set of practice questions. By providing pairs of tagNames to the number of questions of that tag, you can specialise what kinds of questions are to be included.
+Get question from exam | /exam/get?question=## (GET) | *N/A* | Gets a question's details from the current in-progress exam. Fails if there is no exam in progress
+Get summary of current exam | /exam/summary (GET) | *N/A* | Gets a summary of the current exam in progress
+Answer a question | /exam/answer (POST) | `{ "question":##, "answer":## }` | Answers a question in the current exam.
 Submit exam* | /exam/submit (POST) | *N/A* | Submits current exam results to the database and ends the exam
 ### Practice questions requests
 - Providing a tagName-number pair with an empty tagName will grab questions irrespective of tags.
