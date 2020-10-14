@@ -2,6 +2,7 @@ var ExamPlatform = window.ExamPlatform || {};
 ExamPlatform.map = ExamPlatform.map || {};
 
 (function appScopeWrapper($) {
+    const questionNum = new URLSearchParams(window.location.search).get('question');
     var authToken;
 
     ExamPlatform.authToken.then(function setAuthToken(token) {
@@ -15,27 +16,20 @@ ExamPlatform.map = ExamPlatform.map || {};
         window.location.href = '/signin.html';
     });
 
+    function fillHtml(result) {
 
-    function startPracticeExam() {
-        var questionData = [];
-        for (var i=0; i</*TODO*/3; i++) {
-            questionData.push("");
-        }
+    }
 
+    function loadQuestion() {
         $.ajax({
-            method: 'POST',
-            url: _config.api.invokeUrl + '/exam/start',
+            method: 'GET',
+            url: _config.api.invokeUrl + '/exam/get?question='+questionNum,
             headers: {
                 Authorization: authToken
             },
-            data: JSON.stringify({
-                type: "PRACTICE",
-                questions: questionData
-            }),
+            data: {},
             contentType: 'application/json',
-            success: function () {
-                window.location.href = '/exam/summary.html';
-            },
+            success: fillHtml,
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
                 console.error('Error starting exam: ', textStatus, ', Details: ', errorThrown);
                 console.error('Response: ', jqXHR.responseText);
@@ -45,7 +39,11 @@ ExamPlatform.map = ExamPlatform.map || {};
 
     // Register click handler for #request button
     $(function onDocReady() {
-        $('#startExamButton').click(startPracticeExam);
+        $('#nextQuestionButton').click(function () {
+            window.location.href = '/exam-question?question='+(questionNum+1);
+        });
+
+        loadQuestion(questionNum);
 
         if (!_config.api.invokeUrl) {
             $('#noApiMessage').show();

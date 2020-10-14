@@ -113,14 +113,14 @@ var ExamPlatform = window.ExamPlatform || {};
      */
 
     $(function onDocReady() {
-        $('#loginButton').click(handleSignin);
+        $('#loginBtn').click(handleSignin);
         $('#registrationForm').submit(handleRegister);
         $('#verifyForm').submit(handleVerify);
     });
 
     function handleSignin(event) {
-        var email = $('#usernameInput').val();
-        var password = $('#passwordInput').val();
+        var email = $('#inputUser').val();
+        var password = $('#inputPassword').val();
         event.preventDefault();
         signin(email, password,
             function signinSuccess() {

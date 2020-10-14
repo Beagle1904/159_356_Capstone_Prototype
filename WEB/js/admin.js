@@ -18,14 +18,13 @@ ExamPlatform.map = ExamPlatform.map || {};
         alert(error);
         window.location.href = '/signin.html';
     });
-
     function saveQuestion() {
         // context, details, reason, questionType, choices, answer, tags
         $.ajax({
             method: 'POST',
             url: _config.api.invokeUrl + '/questions/add',
             headers: {
-                Authorization: authToken
+                Authorization:  authToken
             },
             data: JSON.stringify({
                 questions: [
@@ -37,12 +36,10 @@ ExamPlatform.map = ExamPlatform.map || {};
                         answer: questionObject.answer,
                         tags: questionObject.tags,
                         details: questionObject.details
-                    }]
+                }]
             }),
             contentType: 'application/json',
-            success: function () {
-                alert("Saved!");
-            },
+            success: function(){alert("Saved!");},
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
                 console.error('Error saving question: ', textStatus, ', Details: ', errorThrown);
                 console.error('Response: ', jqXHR.responseText);
@@ -55,16 +52,16 @@ ExamPlatform.map = ExamPlatform.map || {};
         var rows = "";
         var tags;
         $("#questionsTableBody").html("");
-        for (var i = 0; i < result.questions.length; i++) {
+        for(var i = 0; i < result.questions.length; i++) {
             tags = result.questions[i].tags.join();
             rows = rows + "<tr class='questionRow'><td>" + result.questions[i].ID + "</td><td>" + result.questions[i].details + "</td><td>" + tags + "</td></tr>"
         }
         $("#questionsTableBody").append(rows);
-        $(".questionRow").click(function (e) {
+        $(".questionRow").click(function (e){
             $(".questionRow").css("background-color", "white");
             $(this).css("background-color", "#eee");
             var questionId = $(this).children()[0].innerHTML;
-            for (var i = 0; i < data.questions.length; i++) {
+            for(var i = 0; i < data.questions.length; i++) {
                 if (data.questions[i].ID == questionId) {
                     questionObject = data.questions[i];
                 }
@@ -79,21 +76,22 @@ ExamPlatform.map = ExamPlatform.map || {};
         $('#newQuestionButton').click(newQuestionDialog);
         $('#editQuestionButton').click(editQuestionDialog);
 
+        refreshQuestionsList();
 
         var maxGroup = 10;
 
         //add more fields group
-        $(".addMore").click(function () {
-            if ($('body').find('.fieldGroup').length < maxGroup) {
-                var fieldHTML = '<div class="form-group fieldGroup">' + $(".fieldGroupCopy").html() + '</div>';
+        $(".addMore").click(function(){
+            if($('body').find('.fieldGroup').length < maxGroup){
+                var fieldHTML = '<div class="form-group fieldGroup">'+$(".fieldGroupCopy").html()+'</div>';
                 $('body').find('.fieldGroup:last').after(fieldHTML);
-            } else {
-                alert('Maximum ' + maxGroup + ' groups are allowed.');
+            }else{
+                alert('Maximum '+maxGroup+' groups are allowed.');
             }
         });
 
         //remove fields group
-        $("body").on("click", ".remove", function () {
+        $("body").on("click",".remove",function(){
             $(this).parents(".fieldGroup").remove();
         });
 
@@ -107,9 +105,9 @@ ExamPlatform.map = ExamPlatform.map || {};
         $.ajax({
             method: 'POST',
             url: _config.api.invokeUrl + '/questions/get',
-            //  crossDomain: true,
+          //  crossDomain: true,
             headers: {
-                Authorization: authToken
+                Authorization:  authToken
             },
             data: {},
             contentType: 'application/json',
@@ -119,14 +117,13 @@ ExamPlatform.map = ExamPlatform.map || {};
                 console.error('Response: ', jqXHR.responseText);
                 alert('An error occured while refreshing list:\n' + jqXHR.responseText);
             }
-        });
-    }
+        });    }
 
     function updateQuestionBtn(event) {
         event.preventDefault();
         var choices = [];
-        var choicesInputs = $("input[name='choice[]']");
-        for (var i = 0; i < choicesInputs.length - 1; i++) {
+        var choicesInputs = $( "input[name='choice[]']" );
+        for(var i = 0; i < choicesInputs.length-1; i++) {
             choices.push(choicesInputs[i].value);
         }
         questionObject.details = $("#details")[0].value;
@@ -149,7 +146,7 @@ ExamPlatform.map = ExamPlatform.map || {};
         questionObject.details = "";
         questionObject.reason = "";
         questionObject.questionType = "MCQ";
-        questionObject.choices = [];
+        questionObject.choices= [];
         questionObject.answer = "";
         questionObject.tags = [];
 
@@ -167,12 +164,12 @@ ExamPlatform.map = ExamPlatform.map || {};
         $("#type")[0].value = questionObject.questionType;
         $("#tags")[0].value = questionObject.tags.join(",");
         $('form .remove').parent().parent().parent().remove();
-        for (var i = 0; i < questionObject.choices.length; i++) {
+        for(var i = 0 ; i < questionObject.choices.length; i++) {
             if (i == 0) {
                 $('body').find('.fieldGroup:last').find('input')[0].value = questionObject.choices[i];
                 continue;
             }
-            var fieldHTML = '<div class="form-group fieldGroup">' + $(".fieldGroupCopy").html() + '</div>';
+            var fieldHTML = '<div class="form-group fieldGroup">'+$(".fieldGroupCopy").html()+'</div>';
             $('body').find('.fieldGroup:last').after(fieldHTML);
             $('body').find('.fieldGroup:last').find('input')[0].value = questionObject.choices[i];
         }
