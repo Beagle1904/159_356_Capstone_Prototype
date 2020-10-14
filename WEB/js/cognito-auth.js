@@ -3,7 +3,7 @@
 var ExamPlatform = window.ExamPlatform || {};
 
 (function scopeWrapper($) {
-    var signinUrl = '/signin.html';
+    var signinUrl = '/login-bootstrap.html';
 
     var poolData = {
         UserPoolId: _config.cognito.userPoolId,

@@ -78,6 +78,7 @@ ExamPlatform.map = ExamPlatform.map || {};
 
         refreshQuestionsList();
 
+
         var maxGroup = 10;
 
         //add more fields group
