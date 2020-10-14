@@ -18,7 +18,8 @@ ExamPlatform.map = ExamPlatform.map || {};
 
     function fillHtml(result) {
         console.log(result);
-        for(var i=0; i<result.questions.length; i++) {
+        numQuestions = result.questions.length;
+        for(var i=0; i<numQuestions; i++) {
             var newRow = document.createElement("tr");
 
             var questionNumCol = document.createElement("td");
@@ -34,6 +35,7 @@ ExamPlatform.map = ExamPlatform.map || {};
             newRow.append(questionNumCol, answeredCol);
             document.getElementById("examSummaryRows").appendChild(newRow);
         }
+        ExamPlatform.map.numQuestions = numQuestions;
     }
 
     function loadExamData() {
@@ -63,7 +65,8 @@ ExamPlatform.map = ExamPlatform.map || {};
             data: {},
             contentType: 'application/json',
             success: function() {
-
+                delete ExamPlatform.map.numQuestions;
+                window.location.href = "/index.html";
             },
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
                 console.error('Error starting exam: ', textStatus, ', Details: ', errorThrown);
