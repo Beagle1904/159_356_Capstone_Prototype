@@ -3,7 +3,6 @@ ExamPlatform.map = ExamPlatform.map || {};
 
 (function appScopeWrapper($) {
     var authToken;
-
     ExamPlatform.authToken.then(function setAuthToken(token) {
         if (token) {
             authToken = token;
@@ -47,8 +46,10 @@ ExamPlatform.map = ExamPlatform.map || {};
     }
 
     function addTagPair() {
-        $(".form-group:last").clone().insertAfter(".form-group:last");
-        $(".form-group:last").attr();
+        console.log("AAAAA");
+        var tagHolders = document.getElementsByClassName("tagHolder");
+        var newNode = tagHolders.item(tagHolders.length-1).cloneNode(true);
+        document.getElementById("tagHolderSet").appendChild(newNode);
     }
 
     // Register click handler for #request button
