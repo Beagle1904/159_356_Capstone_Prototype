@@ -42,6 +42,7 @@ ExamPlatform.map = ExamPlatform.map || {};
         $('#nextQuestionButton').click(function () {
             window.location.href = '/exam-question?question='+(questionNum+1);
         });
+        console.log(questionNum);
 
         loadQuestion(questionNum);
 
