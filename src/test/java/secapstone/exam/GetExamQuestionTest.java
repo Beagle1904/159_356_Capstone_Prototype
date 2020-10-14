@@ -38,7 +38,7 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		startPractice();
 
 		Map<String, Object> getRequest = defaultInputMap();
-		((Map) getRequest.get("params")).put("question", 0);
+		((Map) ((Map) getRequest.get("params")).get("querystring")).put("question", 0);
 
 		assertDoesNotThrow(() -> getExamQuestionFunc.handleRequest(getRequest, context));
 	}
@@ -57,7 +57,7 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		startPractice();
 
 		Map<String, Object> getRequest = defaultInputMap();
-		((Map) getRequest.get("params")).put("question", 10); // Out of bounds
+		((Map) ((Map) getRequest.get("params")).get("querystring")).put("question", 10); // Out of bounds
 
 		assertThrows(Error.class, () -> getExamQuestionFunc.handleRequest(getRequest, context));
 	}
@@ -67,7 +67,7 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 		startPractice();
 
 		Map<String, Object> getRequest = defaultInputMap();
-		((Map) getRequest.get("params")).put("question", 0);
+		((Map) ((Map) getRequest.get("params")).get("querystring")).put("question", 0);
 
 		String questionID = (String) getExamQuestionFunc.handleRequest(getRequest, context).get("questionID");
 		assertEquals(questionID, getExamQuestionFunc.handleRequest(getRequest, context).get("questionID"));
@@ -76,7 +76,7 @@ class GetExamQuestionTest extends AbstractDynamoTest {
 	@Test
 	void getNoExamTest() {
 		Map<String, Object> getRequest = defaultInputMap();
-		((Map) getRequest.get("params")).put("question", 10); // Out of bounds
+		((Map) ((Map) getRequest.get("params")).get("querystring")).put("question", 10); // Out of bounds
 
 		assertThrows(Error.class, () -> getExamQuestionFunc.handleRequest(getRequest, context));
 	}

@@ -23,7 +23,7 @@ ExamPlatform.map = ExamPlatform.map || {};
     function loadQuestion() {
         $.ajax({
             method: 'GET',
-            url: _config.api.invokeUrl + '/exam/get?question='+questionNum,
+            url: _config.api.invokeUrl + '/exam/get?question='+(questionNum-1),
             headers: {
                 Authorization: authToken
             },

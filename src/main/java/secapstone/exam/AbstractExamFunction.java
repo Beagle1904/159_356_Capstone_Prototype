@@ -19,7 +19,7 @@ public abstract class AbstractExamFunction implements RequestHandler<Map<String,
 	protected static final Table RESULTS = DYNAMO_DB.getTable("results");
 
 	protected static Item getUser(JSONObject json) {
-		return USERS.getItem("username", json.getJSONObject("context").getString("uzer"));
+		return USERS.getItem("username", json.getJSONObject("context").getString("uzer").toLowerCase());
 	}
 
 	// Returns an array

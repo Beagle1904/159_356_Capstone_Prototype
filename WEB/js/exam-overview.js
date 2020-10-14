@@ -23,8 +23,8 @@ ExamPlatform.map = ExamPlatform.map || {};
 
             var questionNumCol = document.createElement("td");
             var questionLink = document.createElement("a");
-            questionLink.setAttribute("href", "/question_view_single.html?question="+i);
-            questionLink.appendChild(document.createTextNode(""+i));
+            questionLink.setAttribute("href", "/question_view_single.html?question="+(i+1));
+            questionLink.appendChild(document.createTextNode(String(i+1)));
             questionNumCol.appendChild(questionLink);
 
             var answeredCol = document.createElement("td");

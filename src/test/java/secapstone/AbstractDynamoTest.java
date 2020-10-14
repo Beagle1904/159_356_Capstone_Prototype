@@ -16,7 +16,7 @@ import java.util.Map;
 public abstract class AbstractDynamoTest {
 	static final protected DynamoDB DYNAMO_DB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_2).build());
 	static final protected Table USERS = DYNAMO_DB.getTable("users");
-	static final protected String TEST_USERNAME = "testUser";
+	static final protected String TEST_USERNAME = "testuser";
 
 	protected Context context;
 
@@ -64,9 +64,11 @@ public abstract class AbstractDynamoTest {
 		Map<String, Object> bodyMap = new HashMap<>();
 		inputMap.put("body-json", bodyMap);
 		Map<String, Object> paramsMap = new HashMap<>();
+		Map<String, Object> queryStringMap = new HashMap<>();
+		paramsMap.put("querystring", queryStringMap);
 		inputMap.put("params", paramsMap);
 		Map<String, Object> contextMap = new HashMap<>();
-		contextMap.put("uzer", "testUser");
+		contextMap.put("uzer", TEST_USERNAME);
 		inputMap.put("context", contextMap);
 		return inputMap;
 	}

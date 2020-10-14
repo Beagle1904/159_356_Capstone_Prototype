@@ -45,7 +45,12 @@ public class StartExam extends AbstractExamFunction {
 	public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
 		JSONObject inputJSON = new JSONObject(input);
 		Item user = getUser(inputJSON);
-		String username = user.getString("username");
+		String username;
+		try {
+			username = user.getString("username");
+		} catch (Exception e) {
+			throw new Error(inputJSON.toString());
+		}
 
 		// Check if an exam is in progress
 		if (examInProgress(user)) {

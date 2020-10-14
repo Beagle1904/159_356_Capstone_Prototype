@@ -13,8 +13,12 @@ public class ExamSummary extends AbstractExamFunction {
 		Item user = getUser(inputJSON);
 
 		// Check that there is an exam in progress
-		if (!examInProgress(user)) {
-			throw new Error("No exam in progress");
+		try {
+			if (!examInProgress(user)) {
+				throw new Error("No exam in progress");
+			}
+		} catch (Exception e) {
+			throw new Error(user.toJSON());
 		}
 
 		Map<String, Object> output = user.getMap("exam");

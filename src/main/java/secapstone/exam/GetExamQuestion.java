@@ -25,9 +25,9 @@ public class GetExamQuestion extends AbstractExamFunction {
 		// Get the requested question
 		int questionNumber;
 		try {
-			questionNumber = inputJSON.getJSONObject("params").getInt("question");
+			questionNumber = inputJSON.getJSONObject("params").getJSONObject("querystring").getInt("question");
 		} catch (JSONException e) {
-			throw new Error("No position parameter provided");
+			throw new Error("No position parameter provided\t"+inputJSON);
 		}
 
 		return getExamQuestion(user, questionNumber);
