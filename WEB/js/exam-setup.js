@@ -16,6 +16,7 @@ ExamPlatform.map = ExamPlatform.map || {};
 
 
     function startPracticeExam() {
+        document.getElementById("submitQuestions").setAttribute("disabled", "true");
         var cards = document.getElementsByClassName("tagHolder");
         var questionData = {};
         for (var i=0; i<cards.length; i++) {

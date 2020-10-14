@@ -22,13 +22,17 @@ ExamPlatform.map = ExamPlatform.map || {};
             var newRow = document.createElement("tr");
 
             var questionNumCol = document.createElement("td");
-            questionNumCol.appendChild(document.createTextNode(""+i));
+            var questionLink = document.createElement("a");
+            questionLink.setAttribute("href", "/question_view_single.html?question="+i);
+            questionLink.appendChild(document.createTextNode(""+i));
+            questionNumCol.appendChild(questionLink);
 
             var answeredCol = document.createElement("td");
             var answered = result.questions[i].answer != null;
             answeredCol.appendChild(document.createTextNode(String(answered)));
 
             newRow.append(questionNumCol, answeredCol);
+            document.getElementById("examSummaryRows").appendChild(newRow);
         }
     }
 
