@@ -55,6 +55,7 @@ ExamPlatform.map = ExamPlatform.map || {};
     }
 
     function submitExam() {
+        $('#submitButton')[0].setAttribute("disabled", "true");
         $.ajax({
             method: 'POST',
             url: _config.api.invokeUrl + '/exam/submit',
@@ -64,7 +65,6 @@ ExamPlatform.map = ExamPlatform.map || {};
             data: {},
             contentType: 'application/json',
             success: function() {
-                delete ExamPlatform.map.numQuestions;
                 window.location.href = "/index.html";
             },
             error: function ajaxError(jqXHR, textStatus, errorThrown) {

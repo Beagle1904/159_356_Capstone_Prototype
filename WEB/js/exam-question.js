@@ -123,6 +123,7 @@ ExamPlatform.map = ExamPlatform.map || {};
         console.log(questionNum);
         if(questionNum > 1) $("#previousQuestion").click(function() {window.location.href = "/question_view_single.html?question="+(parseInt(questionNum)-1)});
         if(questionNum < numQuestions) $("#nextQuestion").click(function() {window.location.href = "/question_view_single.html?question="+(parseInt(questionNum)+1)});
+        else $("#nextQuestion").click(function() {window.location.href = "/exam_summary.html"});
     }
 
     function loadExamData() {
