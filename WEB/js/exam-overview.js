@@ -35,7 +35,6 @@ ExamPlatform.map = ExamPlatform.map || {};
             newRow.append(questionNumCol, answeredCol);
             document.getElementById("examSummaryRows").appendChild(newRow);
         }
-        ExamPlatform.map.numQuestions = numQuestions;
     }
 
     function loadExamData() {
@@ -79,7 +78,7 @@ ExamPlatform.map = ExamPlatform.map || {};
     $(function onDocReady() {
         // Fill out questions table
         loadExamData();
-        $('#submitButton').click(submitExam)
+        $('#submitButton').click(submitExam);
 
         if (!_config.api.invokeUrl) {
             $('#noApiMessage').show();

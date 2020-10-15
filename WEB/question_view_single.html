@@ -29,8 +29,6 @@
 			</div>
 			<div id="questionCard" class="card" style="width: 100%;">
 				<p id="prompt"></p>
-				<br>
-				<p id="details"></p>
 			</div>
 		</div>
 		
@@ -41,11 +39,9 @@
 			<div class="card" style="width: 100%;">
 					
 				<div class="container">
-					<p>Potential answers below</p>
-					
-					<div class="radio" id="answers">
-						<label><input type="radio" name="optradio">Possible answer</label>
-					</div>
+					<p id="details"></p>
+					<img id="questionImg" src="" visibility="hidden" style="width: 100%"/>
+					<div class="radio" id="answers"></div>
 				</div>
 
 			</div>
@@ -56,8 +52,7 @@
 				<h4>Progress</h4>
 			</div>
 			<div class="card" style="width: 100%;">
-				<br>
-				<p>Number of questions remaining</p>
+				<table id="summaryTable" style="width: 100%; text-align: center"></table>
 			</div>
 		</div>
 	</div>
@@ -65,9 +60,9 @@
 	<div class="row">
 		<div class="col text-center">
 			<div class="container">
-				<button id="previousQuestion" type="submit" class="btn btn-primary float-left">Previous</button>
-				<button id="overviewBtn" type="submit" class="btn btn-primary float-center">Exam overview</button>
-				<button id="nextQuestion" type="submit" class="btn btn-primary float-right">Next</button>
+				<button id="previousQuestion" class="btn btn-primary float-left">Previous</button>
+				<a href="/exam_summary.html"><button id="overviewBtn" class="btn btn-primary float-center">Exam overview</button></a>
+				<button id="nextQuestion" class="btn btn-primary float-right">Next</button>
 			</div>
 		</div>
 	</div>

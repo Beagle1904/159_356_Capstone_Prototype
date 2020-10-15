@@ -61,6 +61,7 @@ public class GetExamQuestion extends AbstractExamFunction {
 				outputAttribs.put(attrib, getAnswersOrder(requestQuestion, questionItem));
 			} else outputAttribs.put(attrib, questionItem.get(attrib));
 		}
+		if (questionItem.hasAttribute("image")) outputAttribs.put("image", questionItem.get("image"));
 
 		return outputAttribs;
 	}
