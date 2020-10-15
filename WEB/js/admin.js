@@ -103,6 +103,8 @@ ExamPlatform.map = ExamPlatform.map || {};
 
 
     function refreshQuestionsList() {
+        var refreshQuestionsButton = $('#refreshQuestionsButton')[0];
+        refreshQuestionsButton.setAttribute("disabled", "true");
         $.ajax({
             method: 'POST',
             url: _config.api.invokeUrl + '/questions/get',
@@ -118,7 +120,9 @@ ExamPlatform.map = ExamPlatform.map || {};
                 console.error('Response: ', jqXHR.responseText);
                 alert('An error occured while refreshing list:\n' + jqXHR.responseText);
             }
-        });    }
+        });
+        refreshQuestionsButton.setAttribute("disabled", "false");
+    }
 
     function updateQuestionBtn(event) {
         event.preventDefault();
